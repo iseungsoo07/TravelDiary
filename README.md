@@ -1,11 +1,8 @@
 # 여행 일기 공유 서비스
 
----
 여행 일기를 공유하는 SNS 서비스 개발 프로젝트 (11.13 ~ 12.15)
 
 ## 프로젝트 기능 및 설계
-
----
 
 ### 상단에 작성된 기능 부터 구현을 완료한다.
 
@@ -60,13 +57,9 @@
   - 댓글이나 좋아요를 누를 때 동시성 문제를 어떻게 해결하지?
   - SNS 서비스의 특성상 대용량 트래픽일때 발생할 수 있는 문제를 어떻게 해결하지?
 ## ERD
-
----
 ![ER Diagram](./doc/img/erd.png)
 
 ## Trouble Shooting
-
---- 
 [go to the trouble shooting](./doc/TROUBLE_SHOOTING.md)
 
 ## Tech Stack
