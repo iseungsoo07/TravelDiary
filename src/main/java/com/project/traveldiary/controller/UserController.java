@@ -1,6 +1,7 @@
 package com.project.traveldiary.controller;
 
 import com.project.traveldiary.dto.SignUpRequest;
+import com.project.traveldiary.dto.SignUpResponse;
 import com.project.traveldiary.service.UserService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
+    public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         return ResponseEntity.ok(userService.signUp(signUpRequest));
     }
 
