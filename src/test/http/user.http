@@ -1,0 +1,9 @@
+### 회원가입
+POST http://localhost:8080/user/signup
+Content-Type: application/json
+
+{
+  "userId": "keria",
+  "password": "1111",
+  "nickname": "keria01"
+}
