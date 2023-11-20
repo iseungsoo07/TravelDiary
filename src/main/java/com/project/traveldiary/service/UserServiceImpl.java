@@ -2,7 +2,9 @@ package com.project.traveldiary.service;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_ID;
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_NICKNAME;
+import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
+import com.project.traveldiary.dto.SignInRequest;
 import com.project.traveldiary.dto.SignUpRequest;
 import com.project.traveldiary.dto.SignUpResponse;
 import com.project.traveldiary.entity.User;
@@ -11,16 +13,25 @@ import com.project.traveldiary.repository.UserRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUserId(username)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+    }
 
     @Override
     public SignUpResponse signUp(SignUpRequest signUpRequest) {
@@ -47,4 +58,17 @@ public class UserServiceImpl implements UserService {
             .message("회원 가입에 성공하셨습니다.")
             .build();
     }
+
+    @Override
+    public User login(SignInRequest signInRequest) {
+        User user = userRepository.findByUserId(signInRequest.getUserId())
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        if (!passwordEncoder.matches(signInRequest.getPassword(), user.getPassword())) {
+            throw new UserException(NOT_FOUND_USER);
+        }
+
+        return user;
+    }
+
 }
