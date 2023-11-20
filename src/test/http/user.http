@@ -13,6 +13,25 @@ POST http://localhost:8080/user/signin
 Content-Type: application/json
 
 {
-  "userId": "keria",
-  "password": "1111"
+  "userId": "deft",
+  "password": "2222"
+}
+
+### 회원 정보 수정 - 닉네임
+PATCH http://localhost:8080/user/4/nickname
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZWZ0IiwiaWF0IjoxNzAwNDUzNjk0LCJleHAiOjE3MDA0NTcyOTR9.2fVdBOtmu9J_L4lh1PqfR5JpqsakKFB0-jtJrbeG1Urbvq80DAEQ91ZZm-0js8K-O6EI3WJcQArVkmLSEJ_XpA
+Content-Type: application/json
+
+{
+  "nickname": "deft01"
+}
+
+### 회원 정보 수정 - 비밀번호
+PATCH http://localhost:8080/user/4/password
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZWZ0IiwiaWF0IjoxNzAwNDUzNjk0LCJleHAiOjE3MDA0NTcyOTR9.2fVdBOtmu9J_L4lh1PqfR5JpqsakKFB0-jtJrbeG1Urbvq80DAEQ91ZZm-0js8K-O6EI3WJcQArVkmLSEJ_XpA
+Content-Type: application/json
+
+{
+  "currentPassword": "2222",
+  "newPassword": "3333"
 }

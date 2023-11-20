@@ -2,15 +2,20 @@ package com.project.traveldiary.service;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_ID;
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_NICKNAME;
+import static com.project.traveldiary.type.ErrorCode.CAN_UPDATE_OWN;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
 import com.project.traveldiary.dto.SignInRequest;
 import com.project.traveldiary.dto.SignUpRequest;
 import com.project.traveldiary.dto.SignUpResponse;
+import com.project.traveldiary.dto.UpdateNicknameRequest;
+import com.project.traveldiary.dto.UpdatePasswordRequest;
+import com.project.traveldiary.dto.UpdateUserResponse;
 import com.project.traveldiary.entity.User;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.UserRepository;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -69,6 +74,57 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         return user;
+    }
+
+    @Override
+    public UpdateUserResponse updateNickname(Long id, UpdateNicknameRequest updateUserRequest,
+        String userId) {
+
+        User userById = userRepository.findById(id)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        User userByUserId = userRepository.findByUserId(userId)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        if (!Objects.equals(userById.getId(), userByUserId.getId())) {
+            throw new UserException(CAN_UPDATE_OWN);
+        }
+
+        userById.updateNickname(updateUserRequest.getNickname());
+        userRepository.save(userById);
+
+        return UpdateUserResponse.builder()
+            .message("회원 정보 수정이 완료되었습니다.")
+            .build();
+    }
+
+    @Override
+    public UpdateUserResponse updatePassword(Long id, UpdatePasswordRequest updatePasswordRequest,
+        String userId) {
+
+        User userById = userRepository.findById(id)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        User userByUserId = userRepository.findByUserId(userId)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        if (!Objects.equals(userById.getId(), userByUserId.getId())) {
+            throw new UserException(CAN_UPDATE_OWN);
+        }
+
+        if (!passwordEncoder.matches(updatePasswordRequest.getCurrentPassword(),
+            userById.getPassword())) {
+            throw new UserException(NOT_FOUND_USER);
+        }
+
+        String newPassword = passwordEncoder.encode(updatePasswordRequest.getNewPassword());
+        userById.updatePassword(newPassword);
+
+        userRepository.save(userById);
+
+        return UpdateUserResponse.builder()
+            .message("회원 정보 수정이 완료되었습니다.")
+            .build();
     }
 
 }
