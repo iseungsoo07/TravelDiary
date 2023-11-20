@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SignUpRequest {
+public class SignInRequest {
 
     @NotBlank(message = "아이디는 필수 입력 사항입니다.")
     private String userId;
@@ -20,6 +20,4 @@ public class SignUpRequest {
     @NotBlank(message = "비밀번호는 필수 입력 사항입니다.")
     private String password;
 
-    @NotBlank(message = "닉네임은 필수 입력 사항입니다.")
-    private String nickname;
 }

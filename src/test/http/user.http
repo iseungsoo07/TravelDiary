@@ -3,7 +3,16 @@ POST http://localhost:8080/user/signup
 Content-Type: application/json
 
 {
+  "userId": "deft",
+  "password": "2222",
+  "nickname": "deft02"
+}
+
+### 로그인
+POST http://localhost:8080/user/signin
+Content-Type: application/json
+
+{
   "userId": "keria",
-  "password": "1111",
-  "nickname": "keria01"
+  "password": "1111"
 }
