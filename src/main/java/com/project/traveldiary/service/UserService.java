@@ -1,5 +1,6 @@
 package com.project.traveldiary.service;
 
+import com.project.traveldiary.dto.DeleteUserResponse;
 import com.project.traveldiary.dto.SignInRequest;
 import com.project.traveldiary.dto.SignUpRequest;
 import com.project.traveldiary.dto.SignUpResponse;
@@ -15,4 +16,6 @@ public interface UserService extends UserDetailsService {
     SignUpResponse signUp(SignUpRequest signUpRequest);
 
     User login(SignInRequest signInRequest);
+
+    DeleteUserResponse deleteUser(Long id, String userId);
 }

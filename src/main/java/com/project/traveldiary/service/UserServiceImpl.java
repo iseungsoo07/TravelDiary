@@ -2,8 +2,10 @@ package com.project.traveldiary.service;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_ID;
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_NICKNAME;
+import static com.project.traveldiary.type.ErrorCode.CAN_DELETE_OWN_ACCOUNT;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
+import com.project.traveldiary.dto.DeleteUserResponse;
 import com.project.traveldiary.dto.SignInRequest;
 import com.project.traveldiary.dto.SignUpRequest;
 import com.project.traveldiary.dto.SignUpResponse;
@@ -11,6 +13,7 @@ import com.project.traveldiary.entity.User;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.UserRepository;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -69,6 +72,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         return user;
+    }
+
+    @Override
+    public DeleteUserResponse deleteUser(Long id, String userId) {
+        User user = userRepository.findByUserId(userId)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        if (!Objects.equals(user.getId(), id)) {
+            throw new UserException(CAN_DELETE_OWN_ACCOUNT);
+        }
+
+        userRepository.delete(user);
+
+        return DeleteUserResponse.builder()
+            .message("회원 탈퇴가 완료되었습니다.")
+            .build();
     }
 
 }
