@@ -80,18 +80,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UpdateUserResponse updateNickname(Long id, UpdateNicknameRequest updateUserRequest,
         String userId) {
 
-        User userById = userRepository.findById(id)
+        User user = userRepository.findByUserId(userId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
-        User userByUserId = userRepository.findByUserId(userId)
-            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
-
-        if (!Objects.equals(userById.getId(), userByUserId.getId())) {
+        if (!Objects.equals(user.getId(), id)) {
             throw new UserException(CAN_UPDATE_OWN_ACCOUNT);
         }
 
-        userById.updateNickname(updateUserRequest.getNickname());
-        userRepository.save(userById);
+        user.updateNickname(updateUserRequest.getNickname());
+        userRepository.save(user);
 
         return UpdateUserResponse.builder()
             .message("회원 정보 수정이 완료되었습니다.")
@@ -102,25 +99,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UpdateUserResponse updatePassword(Long id, UpdatePasswordRequest updatePasswordRequest,
         String userId) {
 
-        User userById = userRepository.findById(id)
+        User user = userRepository.findByUserId(userId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
-        User userByUserId = userRepository.findByUserId(userId)
-            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
-
-        if (!Objects.equals(userById.getId(), userByUserId.getId())) {
+        if (!Objects.equals(user.getId(), id)) {
             throw new UserException(CAN_UPDATE_OWN_ACCOUNT);
         }
 
         if (!passwordEncoder.matches(updatePasswordRequest.getCurrentPassword(),
-            userById.getPassword())) {
+            user.getPassword())) {
             throw new UserException(NOT_FOUND_USER);
         }
 
         String newPassword = passwordEncoder.encode(updatePasswordRequest.getNewPassword());
-        userById.updatePassword(newPassword);
+        user.updatePassword(newPassword);
 
-        userRepository.save(userById);
+        userRepository.save(user);
 
         return UpdateUserResponse.builder()
             .message("회원 정보 수정이 완료되었습니다.")
