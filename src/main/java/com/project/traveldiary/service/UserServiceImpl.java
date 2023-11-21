@@ -2,7 +2,7 @@ package com.project.traveldiary.service;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_ID;
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_NICKNAME;
-import static com.project.traveldiary.type.ErrorCode.CAN_UPDATE_OWN;
+import static com.project.traveldiary.type.ErrorCode.CAN_UPDATE_OWN_ACCOUNT;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
 import com.project.traveldiary.dto.SignInRequest;
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
         if (!Objects.equals(userById.getId(), userByUserId.getId())) {
-            throw new UserException(CAN_UPDATE_OWN);
+            throw new UserException(CAN_UPDATE_OWN_ACCOUNT);
         }
 
         userById.updateNickname(updateUserRequest.getNickname());
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
         if (!Objects.equals(userById.getId(), userByUserId.getId())) {
-            throw new UserException(CAN_UPDATE_OWN);
+            throw new UserException(CAN_UPDATE_OWN_ACCOUNT);
         }
 
         if (!passwordEncoder.matches(updatePasswordRequest.getCurrentPassword(),
