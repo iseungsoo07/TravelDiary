@@ -1,8 +1,5 @@
 package com.project.traveldiary.security;
 
-import static com.project.traveldiary.type.ErrorCode.EXPIRED_TOKEN;
-
-import com.project.traveldiary.exception.TokenException;
 import com.project.traveldiary.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -45,12 +42,8 @@ public class TokenProvider {
             .compact();
     }
 
-    public Claims parseClaims(String token) {
-        try {
-            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-        } catch (ExpiredJwtException e) {
-            throw new TokenException(EXPIRED_TOKEN);
-        }
+    public Claims parseClaims(String token) throws ExpiredJwtException {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 
     public Authentication getAuthentication(String token) {
