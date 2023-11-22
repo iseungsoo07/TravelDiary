@@ -2,11 +2,14 @@ package com.project.traveldiary.service;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_ID;
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_NICKNAME;
+import static com.project.traveldiary.type.ErrorCode.MISMATCH_PASSWORD;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
 import com.project.traveldiary.dto.SignInRequest;
 import com.project.traveldiary.dto.SignUpRequest;
 import com.project.traveldiary.dto.SignUpResponse;
+import com.project.traveldiary.dto.UpdateNicknameRequest;
+import com.project.traveldiary.dto.UpdatePasswordRequest;
 import com.project.traveldiary.entity.User;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.UserRepository;
@@ -35,7 +38,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public SignUpResponse signUp(SignUpRequest signUpRequest) {
-        log.info("signUp 수행 시작");
         if (userRepository.existsByUserId(signUpRequest.getUserId())) {
             throw new UserException(ALREADY_USING_ID);
         }
@@ -69,6 +71,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         return user;
+    }
+
+    @Override
+    public void updateNickname(UpdateNicknameRequest updateUserRequest, String userId) {
+        User user = userRepository.findByUserId(userId)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        user.updateNickname(updateUserRequest.getNickname());
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updatePassword(UpdatePasswordRequest updatePasswordRequest, String userId) {
+        User user = userRepository.findByUserId(userId)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        if (!passwordEncoder.matches(updatePasswordRequest.getCurrentPassword(),
+            user.getPassword())) {
+            throw new UserException(MISMATCH_PASSWORD);
+        }
+
+        String newPassword = passwordEncoder.encode(updatePasswordRequest.getNewPassword());
+        user.updatePassword(newPassword);
+
+        userRepository.save(user);
     }
 
 }
