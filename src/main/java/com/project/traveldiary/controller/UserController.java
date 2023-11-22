@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -41,13 +40,21 @@ public class UserController {
         return ResponseEntity.ok(token);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<DeleteUserResponse> deleteUser(@PathVariable Long id,
+    @DeleteMapping("/delete")
+    public ResponseEntity<DeleteUserResponse> deleteUser(
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
-        String userId = tokenProvider.getUsername(token);
+        String userId = getCurrentUser(token);
 
-        return ResponseEntity.ok(userService.deleteUser(id, userId));
+        userService.deleteUser(userId);
+
+        return ResponseEntity.ok(DeleteUserResponse.builder()
+            .message("회원 탈퇴가 완료되었습니다.")
+            .build());
+    }
+
+    private String getCurrentUser(String token) {
+        return tokenProvider.getUsername(token);
     }
 
 }
