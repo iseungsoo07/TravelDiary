@@ -5,7 +5,6 @@ import com.project.traveldiary.dto.SignUpRequest;
 import com.project.traveldiary.dto.SignUpResponse;
 import com.project.traveldiary.dto.UpdateNicknameRequest;
 import com.project.traveldiary.dto.UpdatePasswordRequest;
-import com.project.traveldiary.dto.UpdateUserResponse;
 import com.project.traveldiary.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +18,7 @@ public interface UserService extends UserDetailsService {
 
     User login(SignInRequest signInRequest);
 
-    UpdateUserResponse updateNickname(Long id, UpdateNicknameRequest updateUserRequest, String userId);
+    void updateNickname(UpdateNicknameRequest updateUserRequest, String userId);
 
-    UpdateUserResponse updatePassword(Long id, UpdatePasswordRequest updatePasswordRequest, String userId);
+    void updatePassword(UpdatePasswordRequest updatePasswordRequest, String userId);
 }

@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -45,23 +44,36 @@ public class UserController {
         return ResponseEntity.ok(token);
     }
 
-    @PatchMapping("/{id}/nickname")
-    public ResponseEntity<UpdateUserResponse> updateNickname(@PathVariable Long id,
+    @PatchMapping("/update/nickname")
+    public ResponseEntity<UpdateUserResponse> updateNickname(
         @RequestBody @Valid UpdateNicknameRequest updateUserRequest,
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
-        String userId = tokenProvider.getUsername(token);
+        String userId = getCurrentUserId(token);
 
-        return ResponseEntity.ok(userService.updateNickname(id, updateUserRequest, userId));
+        userService.updateNickname(updateUserRequest, userId);
+
+        return ResponseEntity.ok(UpdateUserResponse.builder()
+            .message("회원 정보 수정이 완료되었습니다.")
+            .build());
     }
 
-    @PatchMapping("/{id}/password")
-    public ResponseEntity<UpdateUserResponse> updatePassword(@PathVariable Long id,
+    @PatchMapping("/update/password")
+    public ResponseEntity<UpdateUserResponse> updatePassword(
         @RequestBody @Valid UpdatePasswordRequest updatePasswordRequest,
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
-        String userId = tokenProvider.getUsername(token);
+        String userId = getCurrentUserId(token);
 
-        return ResponseEntity.ok(userService.updatePassword(id, updatePasswordRequest, userId));
+        userService.updatePassword(updatePasswordRequest, userId);
+
+        return ResponseEntity.ok(UpdateUserResponse.builder()
+            .message("회원 정보 수정이 완료되었습니다.")
+            .build());
     }
+
+    private String getCurrentUserId(String token) {
+        return tokenProvider.getUsername(token);
+    }
+
 }

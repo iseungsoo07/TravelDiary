@@ -2,7 +2,7 @@ package com.project.traveldiary.service;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_ID;
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_NICKNAME;
-import static com.project.traveldiary.type.ErrorCode.CAN_UPDATE_OWN_ACCOUNT;
+import static com.project.traveldiary.type.ErrorCode.MISMATCH_PASSWORD;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
 import com.project.traveldiary.dto.SignInRequest;
@@ -10,12 +10,10 @@ import com.project.traveldiary.dto.SignUpRequest;
 import com.project.traveldiary.dto.SignUpResponse;
 import com.project.traveldiary.dto.UpdateNicknameRequest;
 import com.project.traveldiary.dto.UpdatePasswordRequest;
-import com.project.traveldiary.dto.UpdateUserResponse;
 import com.project.traveldiary.entity.User;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.UserRepository;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +38,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public SignUpResponse signUp(SignUpRequest signUpRequest) {
-        log.info("signUp 수행 시작");
         if (userRepository.existsByUserId(signUpRequest.getUserId())) {
             throw new UserException(ALREADY_USING_ID);
         }
@@ -77,48 +74,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UpdateUserResponse updateNickname(Long id, UpdateNicknameRequest updateUserRequest,
-        String userId) {
-
+    public void updateNickname(UpdateNicknameRequest updateUserRequest, String userId) {
         User user = userRepository.findByUserId(userId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
-
-        if (!Objects.equals(user.getId(), id)) {
-            throw new UserException(CAN_UPDATE_OWN_ACCOUNT);
-        }
 
         user.updateNickname(updateUserRequest.getNickname());
         userRepository.save(user);
-
-        return UpdateUserResponse.builder()
-            .message("회원 정보 수정이 완료되었습니다.")
-            .build();
     }
 
     @Override
-    public UpdateUserResponse updatePassword(Long id, UpdatePasswordRequest updatePasswordRequest,
-        String userId) {
-
+    public void updatePassword(UpdatePasswordRequest updatePasswordRequest, String userId) {
         User user = userRepository.findByUserId(userId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
-        if (!Objects.equals(user.getId(), id)) {
-            throw new UserException(CAN_UPDATE_OWN_ACCOUNT);
-        }
-
         if (!passwordEncoder.matches(updatePasswordRequest.getCurrentPassword(),
             user.getPassword())) {
-            throw new UserException(NOT_FOUND_USER);
+            throw new UserException(MISMATCH_PASSWORD);
         }
 
         String newPassword = passwordEncoder.encode(updatePasswordRequest.getNewPassword());
         user.updatePassword(newPassword);
 
         userRepository.save(user);
-
-        return UpdateUserResponse.builder()
-            .message("회원 정보 수정이 완료되었습니다.")
-            .build();
     }
 
 }
