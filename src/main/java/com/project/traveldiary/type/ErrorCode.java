@@ -18,6 +18,8 @@ public enum ErrorCode {
     ALREADY_USING_NICKNAME("이미 사용중인 닉네임입니다."),
     NOT_FOUND_USER("일치하는 사용자 정보가 없습니다."),
 
+    // FOLLOW
+    ALREADY_FOLLOWED_USER("이미 팔로우 중인 사용자입니다."),
 
     ;
 
