@@ -3,13 +3,23 @@ POST http://localhost:8080/user/signup
 Content-Type: application/json
 
 {
-  "userId": "deft",
-  "password": "2222",
-  "nickname": "deft02"
+  "userId": "faker",
+  "password": "3333",
+  "nickname": "faker_"
 }
 
 ### 로그인
 POST http://localhost:8080/user/signin
+Content-Type: application/json
+
+{
+  "userId": "faker",
+  "password": "3333"
+}
+
+### 회원 탈퇴
+DELETE http://localhost:8080/user/7
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMDUzMDI1OSwiZXhwIjoxNzAwNTMzODU5fQ.lNz90C98wh6O6fmhr_hVMZfIQokiyNrDnxk6SrJpQkKIa9DjFQ-hlBkqzNdiH-Y9qH-TQiDvbJ5UwYzaNueUsg
 Content-Type: application/json
 
 {
