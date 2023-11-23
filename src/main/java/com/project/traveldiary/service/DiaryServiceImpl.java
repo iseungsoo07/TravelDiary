@@ -11,11 +11,14 @@ import com.project.traveldiary.repository.DiaryRepository;
 import com.project.traveldiary.repository.UserRepository;
 import com.project.traveldiary.type.ErrorCode;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -31,28 +34,38 @@ public class DiaryServiceImpl implements DiaryService {
     private final AmazonS3Client amazonS3;
 
     @Override
-    public DiaryUploadResponse uploadDiary(MultipartFile file,
-        DiaryUploadRequest diaryUploadRequest,
-        String userId) throws IOException {
+    @Transactional
+    public DiaryUploadResponse uploadDiary(List<MultipartFile> files,
+        DiaryUploadRequest diaryUploadRequest, String userId) {
 
         User user = userRepository.findByUserId(userId)
             .orElseThrow(() -> new UserException(ErrorCode.NOT_FOUND_USER));
 
-        String fileName = null;
-        String filePath = null;
+        List<String> fileNames = new ArrayList<>();
+        List<String> filePaths = new ArrayList<>();
 
-        if (file != null && !file.isEmpty()) {
-            fileName = generateFileName(file); // DB에 저장될 file명 생성
-            amazonS3.putObject(bucket, fileName, file.getInputStream(), getObjectMetadata(file));
-            filePath = amazonS3.getUrl(bucket, fileName).toString();
-        }
+        files.forEach(file -> {
+            if (file != null && !file.isEmpty()) {
+                String fileName = generateFileName(file);
+                try {
+                    amazonS3.putObject(bucket, fileName, file.getInputStream(),
+                        getObjectMetadata(file));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                String filePath = amazonS3.getUrl(bucket, fileName).toString();
+
+                fileNames.add(fileName);
+                filePaths.add(filePath);
+            }
+        });
 
         Diary diary = Diary.builder()
             .user(user)
             .title(diaryUploadRequest.getTitle())
             .content(diaryUploadRequest.getContent())
-            .fileName(fileName)
-            .filePath(filePath)
+            .fileName(fileNames.toString())
+            .filePath(filePaths.toString())
             .hashtags(diaryUploadRequest.getHashtags())
             .build();
 
@@ -61,11 +74,12 @@ public class DiaryServiceImpl implements DiaryService {
         return DiaryUploadResponse.builder()
             .title(diaryUploadRequest.getTitle())
             .content(diaryUploadRequest.getContent())
-            .fileName(fileName)
-            .filePath(filePath)
+            .fileName(fileNames)
+            .filePath(filePaths)
             .hashtags(diaryUploadRequest.getHashtags())
             .message("일기 등록이 완료되었습니다.")
             .build();
+
     }
 
     private ObjectMetadata getObjectMetadata(MultipartFile file) {

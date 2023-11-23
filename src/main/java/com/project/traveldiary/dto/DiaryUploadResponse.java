@@ -16,8 +16,8 @@ public class DiaryUploadResponse {
 
     private String title;
     private String content;
-    private String fileName;
-    private String filePath;
+    private List<String> fileName;
+    private List<String> filePath;
     private List<String> hashtags;
     private String message;
 
