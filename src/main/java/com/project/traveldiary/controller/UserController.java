@@ -78,7 +78,7 @@ public class UserController {
     public ResponseEntity<DeleteUserResponse> deleteUser(
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
-        String userId = getCurrentUser(token);
+        String userId = getCurrentUserId(token);
 
         userService.deleteUser(userId);
 
