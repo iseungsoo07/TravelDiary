@@ -14,3 +14,15 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
   jwt:
     secret: bXkgcGVyc29uYWwgcHJvamVjdCBuYW1lZCB0cmF2ZWxfZGlhcnkgaW4gemVyb2Jhc2Ugc2VjcmV0IGtleQo=
+
+cloud:
+  aws:
+    s3:
+      bucket: s3-travel-diary-bucket
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
