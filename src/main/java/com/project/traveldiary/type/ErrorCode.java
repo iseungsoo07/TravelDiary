@@ -15,7 +15,6 @@ public enum ErrorCode {
     EXPIRED_TOKEN("이미 만료된 토큰 정보 입니다."),
     INVALID_TOKEN("유효하지 않은 토큰 정보입니다."),
 
-
     // USER
     ALREADY_USING_ID("이미 사용중인 아이디입니다."),
     ALREADY_USING_NICKNAME("이미 사용중인 닉네임입니다."),
@@ -23,6 +22,9 @@ public enum ErrorCode {
     CAN_DELETE_OWN_ACCOUNT("본인 계정만 탈퇴할 수 있습니다."),
     MISMATCH_PASSWORD("비밀번호가 일치하지 않습니다."),
     CAN_UPDATE_OWN_ACCOUNT("본인 정보만 수정할 수 있습니다."),
+  
+    // FOLLOW
+    ALREADY_FOLLOWED_USER("이미 팔로우 중인 사용자입니다."),
 
     ;
 

@@ -1,0 +1,15 @@
+### 팔로우
+POST http://localhost:8080/follow/8
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndW1heXVzaSIsImlhdCI6MTcwMDYzNTE0MywiZXhwIjoxNzAwNjM4NzQzfQ.c8jNr56OHFyBosXBvpf5vQHfLNUyT2fdTz6U9-Njtkkh71NrLj4xoD33HWHPEazNzqTdRcmaDrN9TNsVi2sRFg
+
+### 팔로워 목록
+GET http://localhost:8080/follow/8/follower
+
+### 팔로잉 목록
+GET http://localhost:8080/follow/3/following
+
+### 팔로워 수
+GET http://localhost:8080/follow/8/follower/count
+
+### 팔로잉 수
+GET http://localhost:8080/follow/8/following/count
