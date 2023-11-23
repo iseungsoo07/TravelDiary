@@ -1,3 +1,66 @@
+DELETE http://localhost:8080/user/delete
+Content-Type: application/json
+Content-Length: 44
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userId": "deft",
+  "password": "2222"
+}
+
+<> 2023-11-23T095132.200.json
+
+###
+
+DELETE http://localhost:8080/user/8
+Content-Type: application/json
+Content-Length: 44
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userId": "deft",
+  "password": "2222"
+}
+
+<> 2023-11-23T095104.404.json
+
+###
+
+POST http://localhost:8080/user/signin
+Content-Type: application/json
+Content-Length: 45
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userId": "faker",
+  "password": "3333"
+}
+
+<> 2023-11-23T095052.200.txt
+
+###
+
+PATCH http://localhost:8080/user/4/nickname
+Content-Type: application/json
+Content-Length: 26
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "nickname": "deft01"
+}
+
+<> 2023-11-23T095033.404.json
+
+###
+
 POST http://localhost:8080/user/signin
 Content-Type: application/json
 Content-Length: 45
@@ -787,37 +850,6 @@ Accept-Encoding: br,deflate,gzip,x-gzip
   "userId": "",
   "password": "",
   "nickname": ""
-}
-
-###
-
-POST http://localhost:8080/user/signup
-Content-Type: application/json
-Content-Length: 54
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Cookie: JSESSIONID=5B203D6DC5657A1A3B193DDAE1BE816E
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "userId": "",
-  "password": "",
-  "nickname": ""
-}
-
-###
-
-POST http://localhost:8080/user/signup
-Content-Type: application/json
-Content-Length: 69
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "userId": "apple",
-  "password": "1111",
-  "nickname": "apple_"
 }
 
 ###
