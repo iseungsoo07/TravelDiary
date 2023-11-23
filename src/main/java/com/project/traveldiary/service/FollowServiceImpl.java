@@ -3,6 +3,7 @@ package com.project.traveldiary.service;
 import static com.project.traveldiary.type.ErrorCode.ALREADY_FOLLOWED_USER;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
+import com.project.traveldiary.dto.FollowListResponse;
 import com.project.traveldiary.dto.FollowResponse;
 import com.project.traveldiary.entity.Follow;
 import com.project.traveldiary.entity.User;
@@ -10,6 +11,7 @@ import com.project.traveldiary.exception.FollowException;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.FollowRepository;
 import com.project.traveldiary.repository.UserRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,11 +26,11 @@ public class FollowServiceImpl implements FollowService {
     private final FollowRepository followRepository;
 
     @Override
-    public FollowResponse follow(String userId, Long id) {
-        User follower = userRepository.findByUserId(userId)
+    public FollowResponse follow(String follower_id, Long following_id) {
+        User follower = userRepository.findByUserId(follower_id)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
-        User following = userRepository.findById(id)
+        User following = userRepository.findById(following_id)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
         if (followRepository.existsByFollowerAndFollowing(follower, following)) {
@@ -51,23 +53,29 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public Page<Follow> getFollowerList(Long id, int page, int size) {
+    public List<FollowListResponse> getFollowerList(Long id, int page, int size) {
 
         User user = userRepository.findById(id)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
         Pageable pageable = PageRequest.of(page, size);
-        return followRepository.findByFollowingOrderByFollowDateDesc(user, pageable);
+
+        Page<Follow> follow = followRepository.findByFollowingOrderByFollowDateDesc(user, pageable);
+
+        return FollowListResponse.follwerList(follow);
+
     }
 
     @Override
-    public Page<Follow> getFollowingList(Long id, int page, int size) {
+    public List<FollowListResponse> getFollowingList(Long id, int page, int size) {
         User user = userRepository.findById(id)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
         Pageable pageable = PageRequest.of(page, size);
 
-        return followRepository.findByFollowerOrderByFollowDateDesc(user, pageable);
+        Page<Follow> follow = followRepository.findByFollowerOrderByFollowDateDesc(user, pageable);
+
+        return FollowListResponse.followingList(follow);
     }
 
     @Override

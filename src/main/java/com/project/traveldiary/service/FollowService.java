@@ -1,16 +1,16 @@
 package com.project.traveldiary.service;
 
+import com.project.traveldiary.dto.FollowListResponse;
 import com.project.traveldiary.dto.FollowResponse;
-import com.project.traveldiary.entity.Follow;
-import org.springframework.data.domain.Page;
+import java.util.List;
 
 public interface FollowService {
 
-    FollowResponse follow(String userId, Long id);
+    FollowResponse follow(String follower_id, Long following_id);
 
-    Page<Follow> getFollowerList(Long id, int page, int size);
+    List<FollowListResponse> getFollowerList(Long id, int page, int size);
 
-    Page<Follow> getFollowingList(Long id, int page, int size);
+    List<FollowListResponse> getFollowingList(Long id, int page, int size);
 
     long getFollowerCount(Long id);
 
