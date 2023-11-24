@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "userId": "cuzz",
   "password": "4444",
-  "nickname": "moonwoochan"
+  "nickname": ""
 }
 
 ### 로그인

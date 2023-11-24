@@ -29,8 +29,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseError handleArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.warn("ArgumentNotValidException 예외 발생", e);
+    public ResponseError handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.warn("MethodArgumentNotValidException 예외 발생", e);
 
         FieldError fieldError = e.getBindingResult().getFieldError();
 
