@@ -6,6 +6,7 @@ import com.project.traveldiary.security.TokenProvider;
 import com.project.traveldiary.service.DiaryService;
 import java.io.IOException;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class DiaryController {
     @PostMapping
     public ResponseEntity<DiaryUploadResponse> uploadDiary(
         @RequestPart("file") List<MultipartFile> files,
-        @RequestPart("diaryUploadRequest") DiaryUploadRequest diaryUploadRequest,
+        @RequestPart("diaryUploadRequest") @Valid DiaryUploadRequest diaryUploadRequest,
         @RequestHeader("X-AUTH-TOKEN") String token) throws IOException {
 
         String userId = tokenProvider.getUsername(token);

@@ -4,6 +4,7 @@ import static com.project.traveldiary.type.ErrorCode.INVALID_TOKEN;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,7 +27,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
         try {
             filterChain.doFilter(request, response);
-        } catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException | MalformedJwtException e) {
             setResponseError(response);
         }
     }

@@ -11,7 +11,7 @@ public enum ErrorCode {
     INVALID_REQUEST("잘못된 요청입니다."),
 
     // TOKEN
-    NOT_FOUND_TOKEN("토큰 정보가 없습니다."),
+    NEED_LOGIN("로그인 후 이용 가능한 서비스입니다."),
     EXPIRED_TOKEN("이미 만료된 토큰 정보 입니다."),
     INVALID_TOKEN("유효하지 않은 토큰 정보입니다."),
 
