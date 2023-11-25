@@ -52,3 +52,30 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 }
 ```
 
+### MySQL JSON 타입 필드를 엔티티와 매핑
+MySQL에는 JSON 형태를 저장할 수 있는 JSON 타입이 있다.<br>
+해시태그 테이블을 따로 구성할 수도 있겠지만, 별도의 테이블로 나눌 경우 join을 해서 보여줘야 한다거나, 별도의 select가 발생할 수 있기 때문에
+이번 프로젝트에서는 해시태그 테이블을 따로 구성하지 않고 JSON 형태로 저장해서 일기가 가진 모든 해시태그를 한 번에 보여지도록 구성하기로 했다.
+<br>
+JPA에서 JSON 형태의 자료를 DB 컬럼에 삽입하기 위해서는 별도의 의존성이 필요하다.
+JPA의 구현체인 hibernate에만 부가적으로 사용 가능한 기능이기 때문에 hibernate를 사용하는 경우에만 적용할 수 있는 외부 라이브러리이다.
+```
+implementation 'com.vladmihalcea:hibernate-types-52:2.16.2'
+```
+위의 의존성을 추가한 뒤 JSON을 사용하는 Entity를 만들때 추가적인 어노테이션을 사용해주면 된다.
+```
+@Entity
+@TypeDef(name = "json", typeClass = JsonStringType.class)
+public class Diary {
+    @Id
+    @GeneratedValue(strategy = "GenerationType.IDENTITY")
+    private Long id;
+    
+    @Type(type = "json")
+    @Column(columnDefinition = "longtext")
+    private List<String> hashtags = new ArrayList<>();
+}    
+```
+@TypeDef 어노테이션을 사용해 이름과 클래스를 지정해주고, JSON 타입으로 사용할 필드에 @Type 어노테이션을 사용해준다.
+<br>
+<del>DB 컬럼 hashtags를 hahstags로 적어서 2시간동안 헤맨거는 안비밀...</del>
