@@ -17,3 +17,42 @@ create table follow (
     FOREIGN KEY (follower_id) REFERENCES user(id)
 );
 
+drop table diary;
+drop table likes;
+drop table comment;
+
+create table diary (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    title varchar(100) NOT NULL,
+    content text,
+    file_path text,
+    hashtags JSON,
+    like_count BIGINT default 0,
+    comment_count BIGINT default 0,
+    created_at DATETIME,
+    modified_at DATETIME,
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+create table likes (
+    id BIGINT PRIMARY KEY  AUTO_INCREMENT,
+    diary_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    FOREIGN KEY (diary_id) REFERENCES diary(id),
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+create table comment (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    diary_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    parent_comment_id BIGINT,
+    content varchar(500),
+    created_at DATETIME,
+    modified_at DATETIME,
+    FOREIGN KEY (diary_id) REFERENCES diary(id),
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+select file_path from diary;

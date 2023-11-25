@@ -3,9 +3,9 @@ POST http://localhost:8080/user/signup
 Content-Type: application/json
 
 {
-  "userId": "faker",
-  "password": "3333",
-  "nickname": "faker_"
+  "userId": "cuzz",
+  "password": "4444",
+  "nickname": ""
 }
 
 ### 로그인
@@ -13,19 +13,14 @@ POST http://localhost:8080/user/signin
 Content-Type: application/json
 
 {
-  "userId": "faker",
-  "password": "3333"
+  "userId": "keria",
+  "password": "1111"
 }
 
 ### 회원 탈퇴
 DELETE http://localhost:8080/user/delete
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMDUzMDI1OSwiZXhwIjoxNzAwNTMzODU5fQ.lNz90C98wh6O6fmhr_hVMZfIQokiyNrDnxk6SrJpQkKIa9DjFQ-hlBkqzNdiH-Y9qH-TQiDvbJ5UwYzaNueUsg
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXp6IiwiaWF0IjoxNzAwODA0MTg5LCJleHAiOjE3MDA4MDc3ODl9.R3VwyfHDg-ynO8N3c479f_Td3qxVduvUgqo0eoNDLOi2D4vxuuHIPzzy--bszTj6aJdSLbrHoggRRaT8IpJY2w
 Content-Type: application/json
-
-{
-  "userId": "deft",
-  "password": "2222"
-}
 
 ### 회원 정보 수정 - 닉네임
 PATCH http://localhost:8080/user/update/nickname
