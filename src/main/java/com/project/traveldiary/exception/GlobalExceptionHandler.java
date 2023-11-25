@@ -28,6 +28,13 @@ public class GlobalExceptionHandler {
         return new ResponseError(e.getErrorCode(), e.getMessage());
     }
 
+    @ExceptionHandler(DiaryException.class)
+    public ResponseError handleDiaryException(DiaryException e) {
+        log.warn("{} 예외 발생", e.getErrorCode());
+
+        return new ResponseError(e.getErrorCode(), e.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseError handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.warn("MethodArgumentNotValidException 예외 발생", e);

@@ -46,12 +46,10 @@ public class Diary {
 
     private String content;
 
-    private String fileName;
-
     private String filePath;
 
     @Type(type = "json")
-    @Column(name = "hashtags", columnDefinition = "longtext")
+    @Column(columnDefinition = "longtext")
     private List<String> hashtags;
 
     @OneToMany(mappedBy = "diary")

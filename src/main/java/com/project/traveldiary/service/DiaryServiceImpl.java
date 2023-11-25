@@ -1,15 +1,18 @@
 package com.project.traveldiary.service;
 
+import static com.project.traveldiary.type.ErrorCode.FAIL_FILE_UPLOAD;
+import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
+
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.project.traveldiary.dto.DiaryUploadRequest;
 import com.project.traveldiary.dto.DiaryUploadResponse;
 import com.project.traveldiary.entity.Diary;
 import com.project.traveldiary.entity.User;
+import com.project.traveldiary.exception.DiaryException;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.DiaryRepository;
 import com.project.traveldiary.repository.UserRepository;
-import com.project.traveldiary.type.ErrorCode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +42,8 @@ public class DiaryServiceImpl implements DiaryService {
         DiaryUploadRequest diaryUploadRequest, String userId) {
 
         User user = userRepository.findByUserId(userId)
-            .orElseThrow(() -> new UserException(ErrorCode.NOT_FOUND_USER));
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
-        List<String> fileNames = new ArrayList<>();
         List<String> filePaths = new ArrayList<>();
 
         files.forEach(file -> {
@@ -51,11 +53,10 @@ public class DiaryServiceImpl implements DiaryService {
                     amazonS3.putObject(bucket, fileName, file.getInputStream(),
                         getObjectMetadata(file));
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    throw new DiaryException(FAIL_FILE_UPLOAD);
                 }
                 String filePath = amazonS3.getUrl(bucket, fileName).toString();
 
-                fileNames.add(fileName);
                 filePaths.add(filePath);
             }
         });
@@ -64,7 +65,6 @@ public class DiaryServiceImpl implements DiaryService {
             .user(user)
             .title(diaryUploadRequest.getTitle())
             .content(diaryUploadRequest.getContent())
-            .fileName(fileNames.toString())
             .filePath(filePaths.toString())
             .hashtags(diaryUploadRequest.getHashtags())
             .build();
@@ -74,7 +74,6 @@ public class DiaryServiceImpl implements DiaryService {
         return DiaryUploadResponse.builder()
             .title(diaryUploadRequest.getTitle())
             .content(diaryUploadRequest.getContent())
-            .fileName(fileNames)
             .filePath(filePaths)
             .hashtags(diaryUploadRequest.getHashtags())
             .message("일기 등록이 완료되었습니다.")

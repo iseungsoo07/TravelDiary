@@ -26,7 +26,6 @@ create table diary (
     user_id BIGINT NOT NULL,
     title varchar(100) NOT NULL,
     content text,
-    file_name text,
     file_path text,
     hashtags JSON,
     like_count BIGINT default 0,
@@ -55,3 +54,5 @@ create table comment (
     FOREIGN KEY (diary_id) REFERENCES diary(id),
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
+
+select file_path from diary;
