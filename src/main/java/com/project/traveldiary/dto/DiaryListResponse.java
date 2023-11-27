@@ -31,8 +31,8 @@ public class DiaryListResponse {
                 .title(diary.getTitle())
                 .writer(diary.getUser().getNickname())
                 .hashtags(diary.getHashtags())
-                .likeCount(diary.getLikes().size())
-                .commentCount(diary.getComments().size())
+                .likeCount(diary.getLikeCount())
+                .commentCount(diary.getCommentCount())
                 .createdAt(diary.getCreatedAt())
                 .build()).collect(Collectors.toList());
     }

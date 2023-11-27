@@ -3,7 +3,6 @@ package com.project.traveldiary.entity;
 import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -55,11 +53,9 @@ public class Diary {
     @Column(columnDefinition = "longtext")
     private List<String> hashtags;
 
-    @OneToMany(mappedBy = "diary")
-    private List<Likes> likes = new ArrayList<>();
+    private long likeCount;
 
-    @OneToMany(mappedBy = "diary")
-    private List<Comment> comments = new ArrayList<>();
+    private long commentCount;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -74,6 +70,10 @@ public class Diary {
         this.hashtags = diaryUpdateRequest.getHashtags();
         this.filePath = filePaths.toString();
         this.fileName = fileNames.toString();
+    }
+
+    public void updateLikeCount(long count) {
+        this.likeCount = count;
     }
 
 }

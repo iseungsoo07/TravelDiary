@@ -35,6 +35,13 @@ public class GlobalExceptionHandler {
         return new ResponseError(e.getErrorCode(), e.getMessage());
     }
 
+    @ExceptionHandler(LikeException.class)
+    public ResponseError handleLikeException(LikeException e) {
+        log.error("{} 예외 발생", e.getErrorCode());
+
+        return new ResponseError(e.getErrorCode(), e.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseError handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException 예외 발생", e);

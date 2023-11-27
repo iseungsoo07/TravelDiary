@@ -1,5 +1,6 @@
 package com.project.traveldiary.service;
 
+import static com.project.traveldiary.type.ErrorCode.ALREADY_LIKE_DIARY;
 import static com.project.traveldiary.type.ErrorCode.CAN_DELETE_OWN_DIARY;
 import static com.project.traveldiary.type.ErrorCode.CAN_UPDATE_OWN_DIARY;
 import static com.project.traveldiary.type.ErrorCode.FAIL_DELETE_FILE;
@@ -20,6 +21,7 @@ import com.project.traveldiary.entity.Diary;
 import com.project.traveldiary.entity.Likes;
 import com.project.traveldiary.entity.User;
 import com.project.traveldiary.exception.DiaryException;
+import com.project.traveldiary.exception.LikeException;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.DiaryRepository;
 import com.project.traveldiary.repository.LikesRepository;
@@ -132,8 +134,8 @@ public class DiaryServiceImpl implements DiaryService {
             .filePath(filePaths)
             .hashtags(diary.getHashtags())
             .writer(diary.getUser().getNickname())
-            .likeCount(diary.getLikes().size())
-            .commentCount(diary.getComments().size())
+            .likeCount(diary.getLikeCount())
+            .commentCount(diary.getCommentCount())
             .createdAt(diary.getCreatedAt())
             .build();
     }
@@ -228,12 +230,18 @@ public class DiaryServiceImpl implements DiaryService {
         Diary diary = diaryRepository.findById(id)
             .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
 
+        if (likesRepository.existsByUserAndDiary(user, diary)) {
+             throw new LikeException(ALREADY_LIKE_DIARY);
+        }
+
         Likes savedLike = likesRepository.save(Likes.builder()
             .user(user)
             .diary(diary)
             .build());
 
-//        long likeCount = likesRepository.countByDiary(diary);
+        diary.updateLikeCount(likesRepository.countByDiary(diary));
+
+        diaryRepository.save(diary);
 
         String fromUser = savedLike.getUser().getNickname();
         String toUser = savedLike.getDiary().getUser().getNickname();

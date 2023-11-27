@@ -92,5 +92,4 @@ public class DiaryController {
 
         return ResponseEntity.ok(diaryService.likeDiary(id, userId));
     }
-
 }
