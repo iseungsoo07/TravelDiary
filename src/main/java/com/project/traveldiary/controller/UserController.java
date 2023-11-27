@@ -7,7 +7,6 @@ import com.project.traveldiary.dto.SignUpResponse;
 import com.project.traveldiary.dto.UpdateNicknameRequest;
 import com.project.traveldiary.dto.UpdatePasswordRequest;
 import com.project.traveldiary.dto.UpdateUserResponse;
-import com.project.traveldiary.entity.User;
 import com.project.traveldiary.security.TokenProvider;
 import com.project.traveldiary.service.UserService;
 import javax.validation.Valid;
@@ -33,15 +32,16 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
-        return ResponseEntity.ok(userService.signUp(signUpRequest));
+        userService.signUp(signUpRequest);
+
+        return ResponseEntity.ok(SignUpResponse.builder()
+            .message("회원 가입에 성공하셨습니다.")
+            .build());
     }
 
     @PostMapping("/signin")
     public ResponseEntity<String> signIn(@RequestBody @Valid SignInRequest signInRequest) {
-
-        User user = userService.login(signInRequest);
-
-        String token = tokenProvider.createToken(user.getUserId());
+        String token = tokenProvider.createToken(userService.login(signInRequest));
 
         return ResponseEntity.ok(token);
     }
@@ -73,7 +73,7 @@ public class UserController {
             .message("회원 정보 수정이 완료되었습니다.")
             .build());
     }
-      
+
     @DeleteMapping("/delete")
     public ResponseEntity<DeleteUserResponse> deleteUser(
         @RequestHeader("X-AUTH-TOKEN") String token) {
