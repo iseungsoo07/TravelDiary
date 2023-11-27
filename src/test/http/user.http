@@ -3,9 +3,9 @@ POST http://localhost:8080/user/signup
 Content-Type: application/json
 
 {
-  "userId": "cuzz",
-  "password": "4444",
-  "nickname": ""
+  "userId": "kiin",
+  "password": "5555",
+  "nickname": "kimkin"
 }
 
 ### 로그인
@@ -13,22 +13,21 @@ POST http://localhost:8080/user/signin
 Content-Type: application/json
 
 {
-  "userId": "keria",
-  "password": "1111"
+  "userId": "faker",
+  "password": "3333"
 }
 
 ### 회원 탈퇴
 DELETE http://localhost:8080/user/delete
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXp6IiwiaWF0IjoxNzAwODA0MTg5LCJleHAiOjE3MDA4MDc3ODl9.R3VwyfHDg-ynO8N3c479f_Td3qxVduvUgqo0eoNDLOi2D4vxuuHIPzzy--bszTj6aJdSLbrHoggRRaT8IpJY2w
-Content-Type: application/json
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXp6IiwiaWF0IjoxNzAwODk2NjE3LCJleHAiOjE3MDA5MDAyMTd9.iKZIlRlF-PPlXqbUhR6-PvAQPqPP94g7p0y9mWDADgYUY2B2XQfnAuyzfvewS2M1BD1f3iyPKH2cXddxauqrTg
 
 ### 회원 정보 수정 - 닉네임
 PATCH http://localhost:8080/user/update/nickname
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZWZ0IiwiaWF0IjoxNzAwNDUzNjk0LCJleHAiOjE3MDA0NTcyOTR9.2fVdBOtmu9J_L4lh1PqfR5JpqsakKFB0-jtJrbeG1Urbvq80DAEQ91ZZm-0js8K-O6EI3WJcQArVkmLSEJ_XpA
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXp6IiwiaWF0IjoxNzAwOTI0MDAwLCJleHAiOjE3MDA5Mjc2MDB9.Uhj12G917ycqgiVC5S7jzMVBPdWd0TFNuHvwjTHYjkumnsMgTwXdGprjC6OXabIrHU577SA4FN7ui-E20NWBWA
 Content-Type: application/json
 
 {
-  "nickname": "deft01"
+  "nickname": "woochan"
 }
 
 ### 회원 정보 수정 - 비밀번호

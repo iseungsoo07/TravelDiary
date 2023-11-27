@@ -1,5 +1,6 @@
 package com.project.traveldiary.entity;
 
+import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class Diary {
 
     private String filePath;
 
+    private String fileName;
+
     @Type(type = "json")
     @Column(columnDefinition = "longtext")
     private List<String> hashtags;
@@ -63,5 +66,14 @@ public class Diary {
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
+    public void update(DiaryUpdateRequest diaryUpdateRequest, List<String> filePaths,
+        List<String> fileNames) {
+        this.title = diaryUpdateRequest.getTitle();
+        this.content = diaryUpdateRequest.getContent();
+        this.hashtags = diaryUpdateRequest.getHashtags();
+        this.filePath = filePaths.toString();
+        this.fileName = fileNames.toString();
+    }
 
 }

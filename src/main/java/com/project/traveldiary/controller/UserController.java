@@ -73,7 +73,7 @@ public class UserController {
             .message("회원 정보 수정이 완료되었습니다.")
             .build());
     }
-      
+
     @DeleteMapping("/delete")
     public ResponseEntity<DeleteUserResponse> deleteUser(
         @RequestHeader("X-AUTH-TOKEN") String token) {

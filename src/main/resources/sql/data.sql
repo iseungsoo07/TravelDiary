@@ -27,6 +27,7 @@ create table diary (
     title varchar(100) NOT NULL,
     content text,
     file_path text,
+    file_name text,
     hashtags JSON,
     like_count BIGINT default 0,
     comment_count BIGINT default 0,
