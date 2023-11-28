@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingRequestHeaderException.class)
     public ResponseError handleMissingRequestHeaderException(MissingRequestHeaderException e) {
-        log.error("MissingRequestHeaderException 예외 발생", e);
+        log.warn("MissingRequestHeaderException 예외 발생", e);
 
         return new ResponseError(NEED_LOGIN, NEED_LOGIN.getMessage());
     }

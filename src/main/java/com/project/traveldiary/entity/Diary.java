@@ -45,9 +45,9 @@ public class Diary {
 
     private String content;
 
-    private String filePath;
-
-    private String fileName;
+    @Type(type = "json")
+    @Column(columnDefinition = "longtext")
+    private List<String> filePath;
 
     @Type(type = "json")
     @Column(columnDefinition = "longtext")
@@ -63,13 +63,11 @@ public class Diary {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    public void update(DiaryUpdateRequest diaryUpdateRequest, List<String> filePaths,
-        List<String> fileNames) {
+    public void update(DiaryUpdateRequest diaryUpdateRequest, List<String> filePaths) {
         this.title = diaryUpdateRequest.getTitle();
         this.content = diaryUpdateRequest.getContent();
         this.hashtags = diaryUpdateRequest.getHashtags();
-        this.filePath = filePaths.toString();
-        this.fileName = fileNames.toString();
+        this.filePath = filePaths;
     }
 
     public void updateLikeCount(long count) {

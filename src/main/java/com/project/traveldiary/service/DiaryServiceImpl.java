@@ -12,7 +12,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.project.traveldiary.dto.DiaryDetailResponse;
 import com.project.traveldiary.dto.DiaryLikeResponse;
-import com.project.traveldiary.dto.DiaryListResponse;
+import com.project.traveldiary.dto.DiaryResponse;
 import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.project.traveldiary.dto.DiaryUpdateResponse;
 import com.project.traveldiary.dto.DiaryUploadRequest;
@@ -27,12 +27,12 @@ import com.project.traveldiary.repository.DiaryRepository;
 import com.project.traveldiary.repository.LikesRepository;
 import com.project.traveldiary.repository.UserRepository;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,33 +66,13 @@ public class DiaryServiceImpl implements DiaryService {
         User user = userRepository.findByUserId(userId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
-        List<String> filePaths = new ArrayList<>();
-        List<String> fileNames = new ArrayList<>();
-
-        files.forEach(file -> {
-            if (file != null && !file.isEmpty()) {
-                String fileName = generateFileName(file);
-
-                try {
-                    amazonS3.putObject(bucket, fileName, file.getInputStream(),
-                        getObjectMetadata(file));
-                } catch (IOException e) {
-                    throw new DiaryException(FAIL_UPLOAD_FILE);
-                }
-
-                String filePath = amazonS3.getUrl(bucket, fileName).toString();
-
-                filePaths.add(filePath);
-                fileNames.add(fileName);
-            }
-        });
+        List<String> filePaths = uploadFiles(files);
 
         Diary diary = Diary.builder()
             .user(user)
             .title(diaryUploadRequest.getTitle())
             .content(diaryUploadRequest.getContent())
-            .filePath(filePaths.toString())
-            .fileName(fileNames.toString())
+            .filePath(filePaths)
             .hashtags(diaryUploadRequest.getHashtags())
             .build();
 
@@ -126,7 +106,7 @@ public class DiaryServiceImpl implements DiaryService {
         Diary diary = diaryRepository.findById(id)
             .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
 
-        List<String> filePaths = getFilePathFromDB(diary);
+        List<String> filePaths = diary.getFilePath();
 
         return DiaryDetailResponse.builder()
             .title(diary.getTitle())
@@ -141,14 +121,14 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public List<DiaryListResponse> getDiaries(Long id, int page, int size, String sort) {
-        User user = userRepository.findById(id)
+    public Page<DiaryResponse> getDiaries(Long userId, int page, int size, String sort) {
+        User user = userRepository.findById(userId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
         Page<Diary> diaries = diaryRepository.findByUser(user, pageable);
 
-        return DiaryListResponse.diaryList(diaries);
+        return DiaryResponse.diaryList(diaries);
     }
 
     @Override
@@ -163,32 +143,11 @@ public class DiaryServiceImpl implements DiaryService {
             throw new DiaryException(CAN_UPDATE_OWN_DIARY);
         }
 
-        for (String fileName : getFileNameFromDB(diary)) {
-            amazonS3.deleteObject(bucket, fileName);
-        }
+        deleteFiles(diary);
 
-        List<String> filePaths = new ArrayList<>();
-        List<String> fileNames = new ArrayList<>();
+        List<String> filePaths = uploadFiles(files);
 
-        files.forEach(file -> {
-            if (file != null && !file.isEmpty()) {
-                String fileName = generateFileName(file);
-
-                try {
-                    amazonS3.putObject(bucket, fileName, file.getInputStream(),
-                        getObjectMetadata(file));
-                } catch (IOException e) {
-                    throw new DiaryException(FAIL_UPLOAD_FILE);
-                }
-
-                String filePath = amazonS3.getUrl(bucket, fileName).toString();
-
-                filePaths.add(filePath);
-                fileNames.add(fileName);
-            }
-        });
-
-        diary.update(diaryUpdateRequest, filePaths, fileNames);
+        diary.update(diaryUpdateRequest, filePaths);
 
         diaryRepository.save(diary);
 
@@ -211,13 +170,7 @@ public class DiaryServiceImpl implements DiaryService {
             throw new DiaryException(CAN_DELETE_OWN_DIARY);
         }
 
-        for (String fileName : getFileNameFromDB(diary)) {
-            try {
-                amazonS3.deleteObject(bucket, fileName);
-            } catch (Exception e) {
-                throw new DiaryException(FAIL_DELETE_FILE);
-            }
-        }
+        deleteFiles(diary);
 
         diaryRepository.delete(diary);
     }
@@ -231,7 +184,7 @@ public class DiaryServiceImpl implements DiaryService {
             .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
 
         if (likesRepository.existsByUserAndDiary(user, diary)) {
-             throw new LikeException(ALREADY_LIKE_DIARY);
+            throw new LikeException(ALREADY_LIKE_DIARY);
         }
 
         Likes savedLike = likesRepository.save(Likes.builder()
@@ -249,22 +202,45 @@ public class DiaryServiceImpl implements DiaryService {
         return DiaryLikeResponse.builder()
             .userId(fromUser)
             .writer(toUser)
-            .message(fromUser + "님이 " + toUser + "님의 일기에 좋아요를 눌렀습니다.")
             .build();
     }
 
-    private List<String> getFilePathFromDB(Diary diary) {
-        String[] filePathArr = diary.getFilePath()
-            .replace("[", "").replace("]", "")
-            .split(",");
-        return Arrays.stream(filePathArr).map(String::trim).collect(Collectors.toList());
+    private List<String> uploadFiles(List<MultipartFile> files) {
+        List<String> filePaths = new ArrayList<>();
+
+        files.forEach(file -> {
+            if (file != null && !file.isEmpty()) {
+                String fileName = generateFileName(file);
+
+                try {
+                    amazonS3.putObject(bucket, fileName, file.getInputStream(),
+                        getObjectMetadata(file));
+                } catch (IOException e) {
+                    throw new DiaryException(FAIL_UPLOAD_FILE);
+                }
+
+                String filePath = amazonS3.getUrl(bucket, fileName).toString();
+
+                filePaths.add(filePath);
+            }
+        });
+        return filePaths;
     }
 
-    private List<String> getFileNameFromDB(Diary diary) {
-        String[] fileNameArr = diary.getFileName()
-            .replace("[", "").replace("]", "")
-            .split(",");
+    private void deleteFiles(Diary diary) {
+        for (String filePath : diary.getFilePath()) {
+            try {
+                filePath = filePath.substring(filePath.lastIndexOf("/") + 1);
 
-        return Arrays.stream(fileNameArr).map(String::trim).collect(Collectors.toList());
+                String encoded = filePath.substring(filePath.indexOf("%"));
+                String prefix = filePath.substring(0, filePath.indexOf("%"));
+                String decode = URLDecoder.decode(encoded, StandardCharsets.UTF_8);
+                String key = prefix + decode;
+
+                amazonS3.deleteObject(bucket, key);
+            } catch (Exception e) {
+                throw new DiaryException(FAIL_DELETE_FILE);
+            }
+        }
     }
 }

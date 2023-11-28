@@ -3,7 +3,8 @@ GET http://localhost:8080/diary/1
 X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTAwMjY4OSwiZXhwIjoxNzAxMDA2Mjg5fQ.03_S-hJnES9mnC5E0fptpkB8QpDOgoRk7InHBg2SHHXsGxv3i4wUVOF19i4D9399FSpcPR8JkYPFx0s9Ic5XUQ
 
 ### 일기 목록
-GET http://localhost:8080/diary/list/3?page=0&size=10&sort=createdAt
+GET http://localhost:8080/user/3/diaries?page=0&size=10&sort=createdAt
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTE0ODc1NywiZXhwIjoxNzAxMTUyMzU3fQ.S6y2ore_oENPBP_nlJdTj7h6X6oY0mcGIL9ExJVevwdb2gYQ4kkPcVCsknBr5nGqHctnZ5eMsJsgLwJbWAtb3w
 
 ### 일기 삭제
 DELETE http://localhost:8080/diary/5
@@ -11,4 +12,4 @@ X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTA2MzQwOCwiZ
 
 ### 일기 좋아요
 PATCH http://localhost:8080/diary/2/like
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTA3MTc3MywiZXhwIjoxNzAxMDc1MzczfQ.CVcI42WRqS0CSBjakW73JaS8LpplvYj2fp3yiVYyIVMpTS_Q1c4C7D325KBEI10oLlF4Rg4X0l30K5uFwzjNtw
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTE0OTc4OSwiZXhwIjoxNzAxMTUzMzg5fQ.HR9KQgGqd-GZ1slB8Js88TsdDbJdg4c3nfqKV9e5umLxGwsTOvo8Xno8_fi2ByWXwHLcJnMvPGd53LBVTABC8Q
