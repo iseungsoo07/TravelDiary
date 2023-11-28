@@ -70,8 +70,8 @@ public class Diary {
         this.filePath = filePaths;
     }
 
-    public void updateLikeCount(long count) {
-        this.likeCount = count;
+    public void updateLikeCount() {
+        this.likeCount += 1;
     }
 
 }

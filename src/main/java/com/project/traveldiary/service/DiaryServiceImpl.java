@@ -58,6 +58,8 @@ public class DiaryServiceImpl implements DiaryService {
     private final ObjectMetadata objectMetadata;
     private final AmazonS3Client amazonS3;
 
+    private final LockManager lockManager;
+
     @Override
     @Transactional
     public DiaryUploadResponse uploadDiary(List<MultipartFile> files,
@@ -176,6 +178,7 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
+    @Transactional
     public DiaryLikeResponse likeDiary(Long id, String userId) {
         User user = userRepository.findByUserId(userId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
@@ -183,26 +186,34 @@ public class DiaryServiceImpl implements DiaryService {
         Diary diary = diaryRepository.findById(id)
             .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
 
-        if (likesRepository.existsByUserAndDiary(user, diary)) {
-            throw new LikeException(ALREADY_LIKE_DIARY);
+        try {
+            lockManager.lock(String.valueOf(id));
+
+            if (likesRepository.existsByUserAndDiary(user, diary)) {
+                throw new LikeException(ALREADY_LIKE_DIARY);
+            }
+
+            Likes savedLike = likesRepository.save(Likes.builder()
+                .user(user)
+                .diary(diary)
+                .build());
+
+            diary.updateLikeCount();
+
+            diaryRepository.save(diary);
+
+            String fromUser = savedLike.getUser().getNickname();
+            String toUser = savedLike.getDiary().getUser().getNickname();
+
+            return DiaryLikeResponse.builder()
+                .userId(fromUser)
+                .writer(toUser)
+                .build();
+
+        } finally {
+            lockManager.unlock(String.valueOf(id));
         }
 
-        Likes savedLike = likesRepository.save(Likes.builder()
-            .user(user)
-            .diary(diary)
-            .build());
-
-        diary.updateLikeCount(likesRepository.countByDiary(diary));
-
-        diaryRepository.save(diary);
-
-        String fromUser = savedLike.getUser().getNickname();
-        String toUser = savedLike.getDiary().getUser().getNickname();
-
-        return DiaryLikeResponse.builder()
-            .userId(fromUser)
-            .writer(toUser)
-            .build();
     }
 
     private List<String> uploadFiles(List<MultipartFile> files) {
