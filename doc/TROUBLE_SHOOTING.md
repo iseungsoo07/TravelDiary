@@ -79,3 +79,97 @@ public class Diary {
 @TypeDef 어노테이션을 사용해 이름과 클래스를 지정해주고, JSON 타입으로 사용할 필드에 @Type 어노테이션을 사용해준다.
 <br>
 <del>DB 컬럼 hashtags를 hahstags로 적어서 2시간동안 헤맨거는 안비밀...</del>
+
+### AOP pointcut에 arg 전달
+동시성 이슈를 제어하기 위한 redis 분산 락을 사용하는데, 이를 AOP를 이용해서 처리하려고 시도했다.
+다른 강의에서 봤던 코드를 참고해서 aop를 작성했는데 아무리 시도해도 lock을 획득하고 해제하는 log가 보이질 않았다.
+```
+@Component
+@Aspect
+@RequiredArgsConstructor
+@Slf4j
+public class LockAopAspect {
+
+    private final LockManager lockManager;
+
+    @Around("@annotation(com.project.traveldiary.aop.DistributedLock) && args(id)")
+    public Object aroundMethod(ProceedingJoinPoint joinPoint, Long id)
+        throws Throwable {
+
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        DistributedLock lock = signature.getMethod().getAnnotation(DistributedLock.class);
+
+        lockManager.lock(lock.prefix(), String.valueOf(id));
+
+        try {
+            return joinPoint.proceed();
+        } finally {
+            lockManager.unlock(lock.prefix(), String.valueOf(id));
+        }
+    }
+}
+```
+aroundMethod 내에서 일기의 고유 id 값을 사용하기 위해 args로 id 값을 받아왔다. 
+
+```
+@Override
+@Transactional
+@DistributedLock(prefix = "like_diary")
+public DiaryLikeResponse likeDiary(Long id, String userId) {
+    User user = userRepository.findByUserId(userId)
+        .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+    Diary diary = diaryRepository.findById(id)
+        .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
+
+    if (likesRepository.existsByUserAndDiary(user, diary)) {
+        throw new LikeException(ALREADY_LIKE_DIARY);
+    }
+
+    Likes savedLike = likesRepository.save(Likes.builder()
+        .user(user)
+        .diary(diary)
+        .build());
+
+    diary.increaseLikeCount();
+
+    diaryRepository.save(diary);
+
+    String fromUser = savedLike.getUser().getNickname();
+    String toUser = savedLike.getDiary().getUser().getNickname();
+
+    return DiaryLikeResponse.builder()
+        .userId(fromUser)
+        .writer(toUser)
+        .build();
+}
+```
+likeDiary 서비스 메소드는 위와 같이 작성했었다. 하지만 lock을 획득하는 과정은 계속 시도해도 수행되지 않았고
+test 코드를 작성하면서 무엇이 잘못된 지 알게 되었다. 문제는 @Around 어노테이션의 args에 메소드에서 전달받는 인자를 모두 작성해줘야 하는 것이었다.
+```
+@Component
+@Aspect
+@RequiredArgsConstructor
+@Slf4j
+public class LockAopAspect {
+
+    private final LockManager lockManager;
+
+    @Around("@annotation(com.project.traveldiary.aop.DistributedLock) && args(id, userId)")
+    public Object aroundMethod(ProceedingJoinPoint joinPoint, Long id, String userId)
+        throws Throwable {
+
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        DistributedLock lock = signature.getMethod().getAnnotation(DistributedLock.class);
+
+        lockManager.lock(lock.prefix(), String.valueOf(id));
+
+        try {
+            return joinPoint.proceed();
+        } finally {
+            lockManager.unlock(lock.prefix(), String.valueOf(id));
+        }
+    }
+}
+```
+위 처럼 수정하니 정상 동작하는 것을 확인할 수 있었다.
