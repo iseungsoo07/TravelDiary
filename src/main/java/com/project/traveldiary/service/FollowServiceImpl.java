@@ -27,11 +27,11 @@ public class FollowServiceImpl implements FollowService {
     private final FollowRepository followRepository;
 
     @Override
-    public FollowResponse follow(String follower_id, Long following_id) {
-        User follower = userRepository.findByUserId(follower_id)
+    public FollowResponse follow(String followerId, Long followingId) {
+        User follower = userRepository.findByUserId(followerId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
-        User following = userRepository.findById(following_id)
+        User following = userRepository.findById(followingId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
         if (followRepository.existsByFollowerAndFollowing(follower, following)) {
@@ -52,11 +52,11 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public FollowResponse cancelFollow(String follower_id, Long following_id) {
-        User follower = userRepository.findByUserId(follower_id)
+    public FollowResponse cancelFollow(String followerId, Long followingId) {
+        User follower = userRepository.findByUserId(followerId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
-        User following = userRepository.findById(following_id)
+        User following = userRepository.findById(followingId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
         Follow follow = followRepository.findByFollowerAndFollowing(follower, following)
