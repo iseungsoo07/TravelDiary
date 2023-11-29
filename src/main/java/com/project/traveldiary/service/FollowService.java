@@ -8,6 +8,8 @@ public interface FollowService {
 
     FollowResponse follow(String follower_id, Long following_id);
 
+    FollowResponse cancelFollow(String follower_id, Long following_id);
+
     List<FollowListResponse> getFollowerList(Long id, int page, int size);
 
     List<FollowListResponse> getFollowingList(Long id, int page, int size);
@@ -15,4 +17,5 @@ public interface FollowService {
     long getFollowerCount(Long id);
 
     long getFollowingCount(Long id);
+
 }
