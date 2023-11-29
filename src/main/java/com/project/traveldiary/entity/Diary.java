@@ -1,8 +1,8 @@
 package com.project.traveldiary.entity;
 
+import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,22 +45,37 @@ public class Diary {
 
     private String content;
 
-    private String filePath;
+    @Type(type = "json")
+    @Column(columnDefinition = "longtext")
+    private List<String> filePath;
 
     @Type(type = "json")
     @Column(columnDefinition = "longtext")
     private List<String> hashtags;
 
-    @OneToMany(mappedBy = "diary")
-    private List<Likes> likes = new ArrayList<>();
+    private long likeCount;
 
-    @OneToMany(mappedBy = "diary")
-    private List<Comment> comments = new ArrayList<>();
+    private long commentCount;
 
     @CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
+    public void update(DiaryUpdateRequest diaryUpdateRequest, List<String> filePaths) {
+        this.title = diaryUpdateRequest.getTitle();
+        this.content = diaryUpdateRequest.getContent();
+        this.hashtags = diaryUpdateRequest.getHashtags();
+        this.filePath = filePaths;
+    }
+
+    public void increaseLikeCount() {
+        this.likeCount += 1;
+    }
+
+    public void decreaseLikeCount() {
+        this.likeCount -= 1;
+    }
 
 }
