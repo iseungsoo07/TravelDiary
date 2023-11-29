@@ -26,7 +26,7 @@ create table diary (
     user_id BIGINT NOT NULL,
     title varchar(100) NOT NULL,
     content text,
-    file_path text,
+    file_path JSON,
     hashtags JSON,
     like_count BIGINT default 0,
     comment_count BIGINT default 0,
