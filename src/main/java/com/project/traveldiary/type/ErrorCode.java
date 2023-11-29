@@ -32,6 +32,7 @@ public enum ErrorCode {
     NOT_FOUND_DIARY("일치하는 일기 정보가 없습니다."),
     CAN_UPDATE_OWN_DIARY("본인 일기만 수정할 수 있습니다."),
     CAN_DELETE_OWN_DIARY("본인 일기만 삭제할 수 있습니다."),
+    LOCK_ALREADY_ASSIGNED("잠시 후 다시 시도 해주세요."),
     LOCK_ACQUSITION_FAIL("잠시 후 다시 시도 해주세요."),
 
     // Like

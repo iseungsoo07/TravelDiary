@@ -1,4 +1,173 @@
 PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTIzMDU0NCwiZXhwIjoxNzAxMjM0MTQ0fQ.ONV38JVkpblXoeY5IfXcSPU68AHz5mf_5AxknRXVnCEo9yUiUfqsv_F_901vFR7oTwG1AD-ut_t50T5rXWSVJA
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-29T135730.200.json
+
+###
+
+PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTIzMDU0NCwiZXhwIjoxNzAxMjM0MTQ0fQ.ONV38JVkpblXoeY5IfXcSPU68AHz5mf_5AxknRXVnCEo9yUiUfqsv_F_901vFR7oTwG1AD-ut_t50T5rXWSVJA
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-29T130238.200.json
+
+###
+
+POST http://localhost:8080/user/signin
+Content-Type: application/json
+Content-Length: 45
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userId": "keria",
+  "password": "1111"
+}
+
+<> 2023-11-29T130224.200.txt
+
+###
+
+PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTE4Mzk4MywiZXhwIjoxNzAxMTg3NTgzfQ.uPpMKLr-PmIugrF9imkcWM2fF7L4WFstgRH-HBDouGUe1MBLHsGp41ycX3RdGs54GOKAi3CvMSsbmEDhZKOVhA
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-29T000631.200.json
+
+###
+
+POST http://localhost:8080/user/signin
+Content-Type: application/json
+Content-Length: 45
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userId": "keria",
+  "password": "1111"
+}
+
+<> 2023-11-29T000623.200.txt
+
+###
+
+PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTE2ODkwMywiZXhwIjoxNzAxMTcyNTAzfQ.qssTbFjuI4kvif4abcGOJLlDofRSlk9wNPaOmTg9McFsfzPSELVjCQpgNfYbXl3ItTEc7M3UCqbleOLVzFnbDg
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-28T202353.200.json
+
+###
+
+PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTE2ODkwMywiZXhwIjoxNzAxMTcyNTAzfQ.qssTbFjuI4kvif4abcGOJLlDofRSlk9wNPaOmTg9McFsfzPSELVjCQpgNfYbXl3ItTEc7M3UCqbleOLVzFnbDg
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-28T201349.200.json
+
+###
+
+PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTE2ODkwMywiZXhwIjoxNzAxMTcyNTAzfQ.qssTbFjuI4kvif4abcGOJLlDofRSlk9wNPaOmTg9McFsfzPSELVjCQpgNfYbXl3ItTEc7M3UCqbleOLVzFnbDg
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-28T201224.200.json
+
+###
+
+PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTE2ODkwMywiZXhwIjoxNzAxMTcyNTAzfQ.qssTbFjuI4kvif4abcGOJLlDofRSlk9wNPaOmTg9McFsfzPSELVjCQpgNfYbXl3ItTEc7M3UCqbleOLVzFnbDg
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-28T201215.200.json
+
+###
+
+PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTE2ODkwMywiZXhwIjoxNzAxMTcyNTAzfQ.qssTbFjuI4kvif4abcGOJLlDofRSlk9wNPaOmTg9McFsfzPSELVjCQpgNfYbXl3ItTEc7M3UCqbleOLVzFnbDg
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-28T200252.200.json
+
+###
+
+PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTE2ODkwMywiZXhwIjoxNzAxMTcyNTAzfQ.qssTbFjuI4kvif4abcGOJLlDofRSlk9wNPaOmTg9McFsfzPSELVjCQpgNfYbXl3ItTEc7M3UCqbleOLVzFnbDg
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-28T195740.200.json
+
+###
+
+PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTE2ODkwMywiZXhwIjoxNzAxMTcyNTAzfQ.qssTbFjuI4kvif4abcGOJLlDofRSlk9wNPaOmTg9McFsfzPSELVjCQpgNfYbXl3ItTEc7M3UCqbleOLVzFnbDg
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-28T195510.200.json
+
+###
+
+POST http://localhost:8080/user/signin
+Content-Type: application/json
+Content-Length: 45
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userId": "keria",
+  "password": "1111"
+}
+
+<> 2023-11-28T195503.200.txt
+
+###
+
+PATCH http://localhost:8080/diary/2/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTE1ODYzOSwiZXhwIjoxNzAxMTYyMjM5fQ.1TJk-_JLZ15iWhYLBFWtcWP_0XE6VXFrKSGqzwX2gs8-gL26Ydxx2cAzuHMTX853sdan-B5-D7_XwiPmxsW8Cg
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-28T195455.401.json
+
+###
+
+PATCH http://localhost:8080/diary/2/like
 X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTE1ODYzOSwiZXhwIjoxNzAxMTYyMjM5fQ.1TJk-_JLZ15iWhYLBFWtcWP_0XE6VXFrKSGqzwX2gs8-gL26Ydxx2cAzuHMTX853sdan-B5-D7_XwiPmxsW8Cg
 Content-Length: 0
 Connection: Keep-Alive
@@ -424,178 +593,6 @@ Accept-Encoding: br,deflate,gzip,x-gzip
 }
 
 <> 2023-11-27T143648.200.txt
-
-###
-
-GET http://localhost:8080/diary/1
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-11-27T142105.401.json
-
-###
-
-POST http://localhost:8080/user/signin
-Content-Type: application/json
-Content-Length: 45
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "userId": "keria",
-  "password": "1111"
-}
-
-<> 2023-11-27T142058.200.txt
-
-###
-
-POST http://localhost:8080/user/signup
-Content-Type: application/json
-Content-Length: 68
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "userId": "kiin",
-  "password": "5555",
-  "nickname": "kimkin"
-}
-
-<> 2023-11-27T142053.200.json
-
-###
-
-POST http://localhost:8080/user/signin
-Content-Type: application/json
-Content-Length: 45
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "userId": "keria",
-  "password": "1111"
-}
-
-<> 2023-11-27T142040.200.txt
-
-###
-
-POST http://localhost:8080/user/signin
-Content-Type: application/json
-Content-Length: 45
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "userId": "keria",
-  "password": "1111"
-}
-
-<> 2023-11-27T141821.401.json
-
-###
-
-POST http://localhost:8080/user/signin
-Content-Type: application/json
-Content-Length: 45
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "userId": "keria",
-  "password": "1111"
-}
-
-<> 2023-11-27T141816.401.json
-
-###
-
-GET http://localhost:8080/diary/1
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTAwMjY4OSwiZXhwIjoxNzAxMDA2Mjg5fQ.03_S-hJnES9mnC5E0fptpkB8QpDOgoRk7InHBg2SHHXsGxv3i4wUVOF19i4D9399FSpcPR8JkYPFx0s9Ic5XUQ
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-11-27T141800.401.json
-
-###
-
-GET http://localhost:8080/diary/1
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTAwMjY4OSwiZXhwIjoxNzAxMDA2Mjg5fQ.03_S-hJnES9mnC5E0fptpkB8QpDOgoRk7InHBg2SHHXsGxv3i4wUVOF19i4D9399FSpcPR8JkYPFx0s9Ic5XUQ
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-11-26T220156.200.json
-
-###
-
-GET http://localhost:8080/diary/1
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-11-26T220153.401.json
-
-###
-
-GET http://localhost:8080/diary/1
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTAwMjY4OSwiZXhwIjoxNzAxMDA2Mjg5fQ.03_S-hJnES9mnC5E0fptpkB8QpDOgoRk7InHBg2SHHXsGxv3i4wUVOF19i4D9399FSpcPR8JkYPFx0s9Ic5XUQ
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-11-26T220114.200.json
-
-###
-
-GET http://localhost:8080/diary/1
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-11-26T220111.401.json
-
-###
-
-DELETE http://localhost:8080/diary/3
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMDk5NDAyMSwiZXhwIjoxNzAwOTk3NjIxfQ.Y1HMoQzGIN2ZLG3KEbNIEVNuqDzazpKdvZN8eJ56djgDjvRSOvw-5Ysj5Mwcehu8jgK_7IU8xmCVFhx5PHHrEA
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-11-26T220033.401.json
-
-###
-
-DELETE http://localhost:8080/diary/3
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-11-26T220030.401.json
-
-###
-
-PATCH http://localhost:8080/user/update/nickname
-Content-Type: application/json
-Content-Length: 27
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "nickname": "woochan"
-}
-
-<> 2023-11-26T220019.401.json
 
 ###
 
