@@ -16,28 +16,42 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserException.class)
     public ResponseError handleUserException(UserException e) {
-        log.warn("{} 예외 발생", e.getErrorCode());
+        log.error("{} 예외 발생", e.getErrorCode());
 
         return new ResponseError(e.getErrorCode(), e.getMessage());
     }
 
     @ExceptionHandler(FollowException.class)
     public ResponseError handleFollowException(FollowException e) {
-        log.warn("{} 예외 발생", e.getErrorCode());
+        log.error("{} 예외 발생", e.getErrorCode());
 
         return new ResponseError(e.getErrorCode(), e.getMessage());
     }
 
     @ExceptionHandler(DiaryException.class)
     public ResponseError handleDiaryException(DiaryException e) {
-        log.warn("{} 예외 발생", e.getErrorCode());
+        log.error("{} 예외 발생", e.getErrorCode());
+
+        return new ResponseError(e.getErrorCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(LikeException.class)
+    public ResponseError handleLikeException(LikeException e) {
+        log.error("{} 예외 발생", e.getErrorCode());
+
+        return new ResponseError(e.getErrorCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(LockException.class)
+    public ResponseError handleLockException(LockException e) {
+        log.error("{} 예외 발생", e.getErrorCode());
 
         return new ResponseError(e.getErrorCode(), e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseError handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.warn("MethodArgumentNotValidException 예외 발생", e);
+        log.error("MethodArgumentNotValidException 예외 발생", e);
 
         FieldError fieldError = e.getBindingResult().getFieldError();
 
