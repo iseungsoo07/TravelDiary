@@ -25,6 +25,7 @@ public enum ErrorCode {
 
     // FOLLOW
     ALREADY_FOLLOWED_USER("이미 팔로우 중인 사용자입니다."),
+    NOT_FOUND_FOLLOW("일치하는 팔로우 정보가 없습니다."),
 
     // Diary
     FAIL_UPLOAD_FILE("파일 업로드에 실패했습니다."),

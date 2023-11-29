@@ -8,6 +8,7 @@ import com.project.traveldiary.service.FollowService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,21 @@ public class FollowController {
 
         String userId = tokenProvider.getUsername(token);
 
-        return ResponseEntity.ok(followService.follow(userId, id));
+        FollowResponse followResponse = followService.follow(userId, id);
+        followResponse.setMessage(
+            followResponse.getFollower() + "님이 " + followResponse.getFollowing() + "님을 팔로우 했습니다.");
+
+        return ResponseEntity.ok(followResponse);
+
+    }
+
+    @DeleteMapping("/cancel/{id}")
+    public ResponseEntity<FollowResponse> cancelFollow(@PathVariable Long id,
+        @RequestHeader("X-AUTH-TOKEN") String token) {
+
+        String userId = tokenProvider.getUsername(token);
+
+        return ResponseEntity.ok(followService.cancelFollow(userId, id));
     }
 
     @GetMapping("/{id}/follower")
