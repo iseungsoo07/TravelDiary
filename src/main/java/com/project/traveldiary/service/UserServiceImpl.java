@@ -7,7 +7,6 @@ import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
 import com.project.traveldiary.dto.SignInRequest;
 import com.project.traveldiary.dto.SignUpRequest;
-import com.project.traveldiary.dto.SignUpResponse;
 import com.project.traveldiary.dto.UpdateNicknameRequest;
 import com.project.traveldiary.dto.UpdatePasswordRequest;
 import com.project.traveldiary.entity.User;
@@ -37,7 +36,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public SignUpResponse signUp(SignUpRequest signUpRequest) {
+    public void signUp(SignUpRequest signUpRequest) {
         if (userRepository.existsByUserId(signUpRequest.getUserId())) {
             throw new UserException(ALREADY_USING_ID);
         }
@@ -55,14 +54,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             .build();
 
         userRepository.save(user);
-
-        return SignUpResponse.builder()
-            .message("회원 가입에 성공하셨습니다.")
-            .build();
     }
 
     @Override
-    public User login(SignInRequest signInRequest) {
+    public String login(SignInRequest signInRequest) {
         User user = userRepository.findByUserId(signInRequest.getUserId())
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
@@ -70,7 +65,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new UserException(NOT_FOUND_USER);
         }
 
-        return user;
+        return user.getUserId();
     }
 
     @Override
