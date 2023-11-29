@@ -37,6 +37,7 @@ public enum ErrorCode {
 
     // Like
     ALREADY_LIKE_DIARY("이미 좋아요한 게시글입니다."),
+    NOT_FOUND_LIKE("좋아요 정보가 없습니다"),
     ;
 
     private final String message;

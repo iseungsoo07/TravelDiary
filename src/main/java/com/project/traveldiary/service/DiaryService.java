@@ -27,4 +27,6 @@ public interface DiaryService {
     void deleteDiary(Long id, String userId);
 
     DiaryLikeResponse likeDiary(Long id, String userId);
+
+    DiaryLikeResponse cancelLikeDiary(Long id, String userId);
 }

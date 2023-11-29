@@ -100,4 +100,22 @@ public class DiaryController {
             .message(fromUser + "님이 " + toUser + "님의 일기에 좋아요를 눌렀습니다.")
             .build());
     }
+
+    @DeleteMapping("/diary/{id}/cancel/like")
+    public ResponseEntity<DiaryLikeResponse> cancelLikeDiary(@PathVariable Long id,
+        @RequestHeader("X-AUTH-TOKEN") String token) {
+
+        String userId = tokenProvider.getUsername(token);
+
+        DiaryLikeResponse diaryLikeResponse = diaryService.cancelLikeDiary(id, userId);
+
+        String fromUser = diaryLikeResponse.getUserId();
+        String toUser = diaryLikeResponse.getWriter();
+
+        return ResponseEntity.ok(DiaryLikeResponse.builder()
+            .userId(fromUser)
+            .writer(toUser)
+            .build());
+
+    }
 }

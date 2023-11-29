@@ -18,8 +18,8 @@ public class LockAopAspect {
     private final LockManager lockManager;
 
     @Around("@annotation(com.project.traveldiary.aop.DistributedLock) && args(id, userId)")
-    public Object aroundMethod(ProceedingJoinPoint joinPoint, Long id, String userId) throws Throwable {
-        log.info("aop 수행");
+    public Object aroundMethod(ProceedingJoinPoint joinPoint, Long id, String userId)
+        throws Throwable {
 
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         DistributedLock lock = signature.getMethod().getAnnotation(DistributedLock.class);

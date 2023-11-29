@@ -6,6 +6,7 @@ import static com.project.traveldiary.type.ErrorCode.CAN_UPDATE_OWN_DIARY;
 import static com.project.traveldiary.type.ErrorCode.FAIL_DELETE_FILE;
 import static com.project.traveldiary.type.ErrorCode.FAIL_UPLOAD_FILE;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_DIARY;
+import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_LIKE;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -197,12 +198,40 @@ public class DiaryServiceImpl implements DiaryService {
             .diary(diary)
             .build());
 
-        diary.updateLikeCount();
+        diary.increaseLikeCount();
 
         diaryRepository.save(diary);
 
         String fromUser = savedLike.getUser().getNickname();
         String toUser = savedLike.getDiary().getUser().getNickname();
+
+        return DiaryLikeResponse.builder()
+            .userId(fromUser)
+            .writer(toUser)
+            .build();
+    }
+
+    @Override
+    @Transactional
+    @DistributedLock(prefix = "like_diary")
+    public DiaryLikeResponse cancelLikeDiary(Long id, String userId) {
+        User user = userRepository.findByUserId(userId)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        Diary diary = diaryRepository.findById(id)
+            .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
+
+        Likes likes = likesRepository.findByUserAndDiary(user, diary)
+            .orElseThrow(() -> new LikeException(NOT_FOUND_LIKE));
+
+        String fromUser = likes.getUser().getNickname();
+        String toUser = likes.getDiary().getUser().getNickname();
+
+        likesRepository.delete(likes);
+
+        diary.decreaseLikeCount();
+
+        diaryRepository.save(diary);
 
         return DiaryLikeResponse.builder()
             .userId(fromUser)
