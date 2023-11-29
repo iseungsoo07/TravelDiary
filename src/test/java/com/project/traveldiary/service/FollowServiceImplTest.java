@@ -1,6 +1,7 @@
 package com.project.traveldiary.service;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_FOLLOWED_USER;
+import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_FOLLOW;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -8,6 +9,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.project.traveldiary.dto.FollowListResponse;
 import com.project.traveldiary.dto.FollowResponse;
@@ -122,6 +125,108 @@ class FollowServiceImplTest {
 
         // then
         assertEquals(ALREADY_FOLLOWED_USER, followException.getErrorCode());
+    }
+
+    @Test
+    @DisplayName("팔로우 취소 성공")
+    void successCancelFollow() {
+        // given
+        User follower = User.builder()
+            .nickname("apple")
+            .build();
+
+        User following = User.builder()
+            .nickname("banana")
+            .build();
+
+        Follow follow = Follow.builder()
+            .follower(follower)
+            .following(following)
+            .build();
+
+        given(userRepository.findByUserId(anyString()))
+            .willReturn(Optional.of(follower));
+
+        given(userRepository.findById(anyLong()))
+            .willReturn(Optional.of(following));
+
+        given(followRepository.findByFollowerAndFollowing(any(), any()))
+            .willReturn(Optional.of(follow));
+
+        // when
+        FollowResponse followResponse = followService.cancelFollow("apple", 1L);
+
+        // then
+        verify(followRepository, times(1)).delete(any());
+        assertEquals("apple", followResponse.getFollower());
+        assertEquals("banana", followResponse.getFollowing());
+    }
+
+    @Test
+    @DisplayName("팔로우 취소 실패 - 팔로워 정보 없음")
+    void failCancelFollow_NotFoundFollower() {
+        // given
+        given(userRepository.findByUserId(anyString()))
+            .willReturn(Optional.empty());
+
+        // when
+        UserException userException = assertThrows(UserException.class,
+            () -> followService.cancelFollow("apple", 1L));
+
+        // then
+        assertEquals(NOT_FOUND_USER, userException.getErrorCode());
+    }
+
+    @Test
+    @DisplayName("팔로우 취소 실패 - 팔로잉 정보 없음")
+    void failCancelFollow_NotFoundFollowing() {
+        // given
+
+        User follower = User.builder()
+            .nickname("apple")
+            .build();
+
+        given(userRepository.findByUserId(anyString()))
+            .willReturn(Optional.of(follower));
+
+        given(userRepository.findById(anyLong()))
+            .willReturn(Optional.empty());
+
+        // when
+        UserException userException = assertThrows(UserException.class,
+            () -> followService.cancelFollow("apple", 1L));
+
+        // then
+        assertEquals(NOT_FOUND_USER, userException.getErrorCode());
+    }
+
+    @Test
+    @DisplayName("팔로우 취소 실패 - 팔로우 정보 없음")
+    void failCancelFollow_NotFoundFollow() {
+        // given
+        User follower = User.builder()
+            .nickname("apple")
+            .build();
+
+        User following = User.builder()
+            .nickname("banana")
+            .build();
+
+        given(userRepository.findByUserId(anyString()))
+            .willReturn(Optional.of(follower));
+
+        given(userRepository.findById(anyLong()))
+            .willReturn(Optional.of(following));
+
+        given(followRepository.findByFollowerAndFollowing(any(), any()))
+            .willReturn(Optional.empty());
+
+        // when
+        FollowException followException = assertThrows(FollowException.class,
+            () -> followService.cancelFollow("apple", 123L));
+
+        // then
+        assertEquals(NOT_FOUND_FOLLOW, followException.getErrorCode());
     }
 
     @Test
