@@ -1,6 +1,10 @@
 ### 팔로우
 POST http://localhost:8080/follow/8
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndW1heXVzaSIsImlhdCI6MTcwMDYzNTE0MywiZXhwIjoxNzAwNjM4NzQzfQ.c8jNr56OHFyBosXBvpf5vQHfLNUyT2fdTz6U9-Njtkkh71NrLj4xoD33HWHPEazNzqTdRcmaDrN9TNsVi2sRFg
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTI0MDI5OCwiZXhwIjoxNzAxMjQzODk4fQ.T2kysixPeLeakygozG6URKQa8WJn40_K4SsM9NFyzWpxu7igx79Ua3xnWfkk4-f_SIKRWcZtcLd6QJ8ya8zeGA
+
+### 팔로우 취소
+DELETE http://localhost:8080/follow/cancel/8
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTI0MDI5OCwiZXhwIjoxNzAxMjQzODk4fQ.T2kysixPeLeakygozG6URKQa8WJn40_K4SsM9NFyzWpxu7igx79Ua3xnWfkk4-f_SIKRWcZtcLd6QJ8ya8zeGA
 
 ### 팔로워 목록
 GET http://localhost:8080/follow/8/follower
