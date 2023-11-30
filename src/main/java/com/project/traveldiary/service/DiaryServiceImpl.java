@@ -26,6 +26,7 @@ import com.project.traveldiary.exception.DiaryException;
 import com.project.traveldiary.exception.LikeException;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.DiaryRepository;
+import com.project.traveldiary.repository.DiarySearchRepository;
 import com.project.traveldiary.repository.LikesRepository;
 import com.project.traveldiary.repository.UserRepository;
 import java.io.IOException;
@@ -59,8 +60,7 @@ public class DiaryServiceImpl implements DiaryService {
     private final LikesRepository likesRepository;
     private final ObjectMetadata objectMetadata;
     private final AmazonS3Client amazonS3;
-
-    private final LockManager lockManager;
+    private final DiarySearchRepository diarySearchRepository;
 
     @Override
     @Transactional
@@ -239,6 +239,10 @@ public class DiaryServiceImpl implements DiaryService {
             .build();
     }
 
+    @Override
+    public Object searchDiaries(String searchCond, Pageable pageable) {
+        return diarySearchRepository.findByTitleContainingIgnoreCase(searchCond);
+    }
 
     private List<String> uploadFiles(List<MultipartFile> files) {
         List<String> filePaths = new ArrayList<>();

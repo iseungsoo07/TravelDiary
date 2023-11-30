@@ -10,6 +10,7 @@ import com.project.traveldiary.dto.DiaryUploadResponse;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface DiaryService {
@@ -29,4 +30,7 @@ public interface DiaryService {
     DiaryLikeResponse likeDiary(Long id, String userId);
 
     DiaryLikeResponse cancelLikeDiary(Long id, String userId);
+
+    Object searchDiaries(String searchCond, Pageable pageable);
+
 }

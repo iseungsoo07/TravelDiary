@@ -17,6 +17,8 @@ spring:
   redis:
     host: localhost
     port: 6379
+  main:
+    allow-bean-definition-overriding: true
 
 cloud:
   aws:
@@ -36,3 +38,9 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
+    org:
+      springframework:
+        data:
+          elasticsearch:
+            client:
+              wire: trace

@@ -17,3 +17,12 @@ X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTIzOTA4MCwiZ
 ### 일기 좋아요 취소
 DELETE http://localhost:8080/diary/2/cancel/like
 X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTIzOTA4MCwiZXhwIjoxNzAxMjQyNjgwfQ.pgB7UXHqYv4iIEUe-HK2mQAXFWe3PSyO-aMYW8gihdShj5sS4OVucYd26eSmW7zw9W9Ywu8JWkxU4Hq2TIsc6Q
+
+### Document 추가
+POST http://localhost:8080/diary-documents
+X-AUTH-TOKEN:eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTMzNDcwMSwiZXhwIjoxNzAxMzM4MzAxfQ.sfMAs17Dg-l7D5-PsHOhlqBrsYAdDN4JeP3Q8JcPrXsWUi1cZwV_1ZSwV1-BZYQTY-hxZ155ztWXc9kwEhUNbA
+
+### 일기 검색
+GET http://localhost:8080/diary/search?searchCond=diary
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTMzNDcwMSwiZXhwIjoxNzAxMzM4MzAxfQ.sfMAs17Dg-l7D5-PsHOhlqBrsYAdDN4JeP3Q8JcPrXsWUi1cZwV_1ZSwV1-BZYQTY-hxZ155ztWXc9kwEhUNbA
+
