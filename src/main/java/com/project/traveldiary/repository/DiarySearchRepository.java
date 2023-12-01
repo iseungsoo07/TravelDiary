@@ -1,11 +1,15 @@
 package com.project.traveldiary.repository;
 
 import com.project.traveldiary.es.DiaryDocument;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 public interface DiarySearchRepository extends ElasticsearchRepository<DiaryDocument, Long> {
 
-    List<DiaryDocument> findByTitleContainingIgnoreCase(String title);
+    Page<DiaryDocument> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 
+    Page<DiaryDocument> findByWriterContainingIgnoreCase(String content, Pageable pageable);
+
+    Page<DiaryDocument> findByHashtagsIgnoreCase(String hashtags, Pageable pageable);
 }

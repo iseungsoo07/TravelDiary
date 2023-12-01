@@ -22,13 +22,17 @@ import com.project.traveldiary.dto.DiaryUploadResponse;
 import com.project.traveldiary.entity.Diary;
 import com.project.traveldiary.entity.Likes;
 import com.project.traveldiary.entity.User;
+import com.project.traveldiary.es.DiaryDocument;
+import com.project.traveldiary.es.SearchCond;
 import com.project.traveldiary.exception.DiaryException;
 import com.project.traveldiary.exception.LikeException;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.DiaryRepository;
+import com.project.traveldiary.repository.DiarySearchQueryRepository;
 import com.project.traveldiary.repository.DiarySearchRepository;
 import com.project.traveldiary.repository.LikesRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.type.SearchType;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -36,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,6 +66,7 @@ public class DiaryServiceImpl implements DiaryService {
     private final ObjectMetadata objectMetadata;
     private final AmazonS3Client amazonS3;
     private final DiarySearchRepository diarySearchRepository;
+    private final DiarySearchQueryRepository diarySearchQueryRepository;
 
     @Override
     @Transactional
@@ -240,9 +246,35 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public Object searchDiaries(String searchCond, Pageable pageable) {
-        return diarySearchRepository.findByTitleContainingIgnoreCase(searchCond);
+    public Page<DiaryDocument> searchDiaries(SearchCond searchCond, Pageable pageable) {
+
+        if (searchCond.getSearchType() == SearchType.TITLE) {
+            return diarySearchRepository.findByTitleContainingIgnoreCase(searchCond.getContent(),
+                pageable);
+        }
+
+        if (searchCond.getSearchType() == SearchType.WRITER) {
+            return diarySearchRepository.findByWriterContainingIgnoreCase(searchCond.getContent(),
+                pageable);
+        }
+
+        if (searchCond.getSearchType() == SearchType.HASHTAGS) {
+            return diarySearchRepository.findByHashtagsIgnoreCase(searchCond.getContent(),
+                pageable);
+        }
+
+        return null;
     }
+
+    @Override
+    public void saveDiaryDocuments() {
+        List<DiaryDocument> diaryDocumentList = diaryRepository.findAll().stream()
+            .map(DiaryDocument::from)
+            .collect(Collectors.toList());
+
+        diarySearchRepository.saveAll(diaryDocumentList);
+    }
+
 
     private List<String> uploadFiles(List<MultipartFile> files) {
         List<String> filePaths = new ArrayList<>();

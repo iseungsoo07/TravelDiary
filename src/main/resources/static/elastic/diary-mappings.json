@@ -3,35 +3,12 @@
     "id": {
       "type": "keyword"
     },
-    "user": {
-      "properties": {
-        "id": {
-          "type": "long"
-        },
-        "userId": {
-          "type": "text"
-        },
-        "nickname": {
-          "type": "text"
-        },
-        "createdAt": {
-          "type": "date"
-        },
-        "modifiedAt": {
-          "type": "date"
-        }
-      }
+    "writer": {
+      "type": "text"
     },
     "title": {
       "type": "text",
       "analyzer": "korean"
-    },
-    "content": {
-      "type": "text",
-      "analyzer": "korean"
-    },
-    "filePath": {
-      "type": "text"
     },
     "hashtags": {
       "type": "text",
@@ -42,12 +19,6 @@
     },
     "commentCount": {
       "type": "long"
-    },
-    "createdAt": {
-      "type": "date"
-    },
-    "modifiedAt": {
-      "type": "date"
     }
   }
 }

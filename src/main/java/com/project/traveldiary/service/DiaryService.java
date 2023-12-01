@@ -7,6 +7,8 @@ import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.project.traveldiary.dto.DiaryUpdateResponse;
 import com.project.traveldiary.dto.DiaryUploadRequest;
 import com.project.traveldiary.dto.DiaryUploadResponse;
+import com.project.traveldiary.es.DiaryDocument;
+import com.project.traveldiary.es.SearchCond;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -31,6 +33,7 @@ public interface DiaryService {
 
     DiaryLikeResponse cancelLikeDiary(Long id, String userId);
 
-    Object searchDiaries(String searchCond, Pageable pageable);
+    Page<DiaryDocument> searchDiaries(SearchCond searchCond, Pageable pageable);
 
+    void saveDiaryDocuments();
 }

@@ -20,9 +20,14 @@ X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTIzOTA4MCwiZ
 
 ### Document 추가
 POST http://localhost:8080/diary-documents
-X-AUTH-TOKEN:eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTMzNDcwMSwiZXhwIjoxNzAxMzM4MzAxfQ.sfMAs17Dg-l7D5-PsHOhlqBrsYAdDN4JeP3Q8JcPrXsWUi1cZwV_1ZSwV1-BZYQTY-hxZ155ztWXc9kwEhUNbA
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTQxMDE3NywiZXhwIjoxNzAxNDEzNzc3fQ.N7irJBB-4ZCyvMH15mU44frzEWVqSEmibd59RwSzX09F3XobLOqsvQe9PvAIOI5Lf4sNXveW7zIOmdVgoxouQA
 
 ### 일기 검색
-GET http://localhost:8080/diary/search?searchCond=diary
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTMzNDcwMSwiZXhwIjoxNzAxMzM4MzAxfQ.sfMAs17Dg-l7D5-PsHOhlqBrsYAdDN4JeP3Q8JcPrXsWUi1cZwV_1ZSwV1-BZYQTY-hxZ155ztWXc9kwEhUNbA
+GET http://localhost:8080/diary/search
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTQxMDE3NywiZXhwIjoxNzAxNDEzNzc3fQ.N7irJBB-4ZCyvMH15mU44frzEWVqSEmibd59RwSzX09F3XobLOqsvQe9PvAIOI5Lf4sNXveW7zIOmdVgoxouQA
+Content-Type: application/json
 
+{
+  "searchType": "TITLE",
+  "content": "여행 일기"
+}
