@@ -32,7 +32,6 @@ import com.project.traveldiary.repository.DiarySearchQueryRepository;
 import com.project.traveldiary.repository.DiarySearchRepository;
 import com.project.traveldiary.repository.LikesRepository;
 import com.project.traveldiary.repository.UserRepository;
-import com.project.traveldiary.type.SearchType;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -247,23 +246,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public Page<DiaryDocument> searchDiaries(SearchCond searchCond, Pageable pageable) {
-
-        if (searchCond.getSearchType() == SearchType.TITLE) {
-            return diarySearchRepository.findByTitleContainingIgnoreCase(searchCond.getContent(),
-                pageable);
-        }
-
-        if (searchCond.getSearchType() == SearchType.WRITER) {
-            return diarySearchRepository.findByWriterContainingIgnoreCase(searchCond.getContent(),
-                pageable);
-        }
-
-        if (searchCond.getSearchType() == SearchType.HASHTAGS) {
-            return diarySearchRepository.findByHashtagsIgnoreCase(searchCond.getContent(),
-                pageable);
-        }
-
-        return null;
+        return diarySearchQueryRepository.searchDiariesBySearchCond(searchCond, pageable);
     }
 
     @Override

@@ -1,17 +1,32 @@
 {
   "properties": {
     "id": {
-      "type": "keyword"
+      "type": "long"
     },
     "writer": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "title": {
       "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      },
       "analyzer": "korean"
     },
     "hashtags": {
       "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      },
       "analyzer": "korean"
     },
     "likeCount": {

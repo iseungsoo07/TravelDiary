@@ -20,14 +20,14 @@ X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTIzOTA4MCwiZ
 
 ### Document 추가
 POST http://localhost:8080/diary-documents
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTQxMDE3NywiZXhwIjoxNzAxNDEzNzc3fQ.N7irJBB-4ZCyvMH15mU44frzEWVqSEmibd59RwSzX09F3XobLOqsvQe9PvAIOI5Lf4sNXveW7zIOmdVgoxouQA
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTU4NTg3MywiZXhwIjoxNzAxNTg5NDczfQ.QpvRDpOXbPPWCoqTcV7i4kIZuX3Kab_stXXt69E2Lizb6ovcys_OwvRj-q0---RS_rX6dUJ0frGUmfqZgDLghw
 
 ### 일기 검색
 GET http://localhost:8080/diary/search
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTQxMDE3NywiZXhwIjoxNzAxNDEzNzc3fQ.N7irJBB-4ZCyvMH15mU44frzEWVqSEmibd59RwSzX09F3XobLOqsvQe9PvAIOI5Lf4sNXveW7zIOmdVgoxouQA
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTU4NTg3MywiZXhwIjoxNzAxNTg5NDczfQ.QpvRDpOXbPPWCoqTcV7i4kIZuX3Kab_stXXt69E2Lizb6ovcys_OwvRj-q0---RS_rX6dUJ0frGUmfqZgDLghw
 Content-Type: application/json
 
 {
-  "searchType": "TITLE",
-  "content": "여행 일기"
+  "searchType": "WRITER",
+  "content": "deft01"
 }
