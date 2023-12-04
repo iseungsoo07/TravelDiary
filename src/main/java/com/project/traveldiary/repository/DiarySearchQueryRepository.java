@@ -36,12 +36,12 @@ public class DiarySearchQueryRepository {
 
         if (searchCond.getSearchType() == SearchType.WRITER) {
             boolQueryBuilder
-                .filter(QueryBuilders.matchPhraseQuery("writer", searchCond.getContent()));
+                .filter(QueryBuilders.termQuery("writer", searchCond.getContent()));
         }
 
         if (searchCond.getSearchType() == SearchType.HASHTAGS) {
             boolQueryBuilder
-                .filter(QueryBuilders.matchPhraseQuery("hashtags", searchCond.getContent()));
+                .filter(QueryBuilders.termQuery("hashtags", searchCond.getContent()));
         }
 
         NativeSearchQuery query = new NativeSearchQueryBuilder()

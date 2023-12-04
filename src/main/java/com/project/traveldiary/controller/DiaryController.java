@@ -129,10 +129,4 @@ public class DiaryController {
         return ResponseEntity.ok(diaryService.searchDiaries(searchCond, pageable));
     }
 
-    @PostMapping("/diary-documents")
-    public ResponseEntity<?> saveDiaryDocuments() {
-        diaryService.saveDiaryDocuments();
-
-        return ResponseEntity.ok().build();
-    }
 }

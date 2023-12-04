@@ -86,6 +86,7 @@ public class DiaryServiceImpl implements DiaryService {
             .build();
 
         diaryRepository.save(diary);
+        saveDiaryDocuments();
 
         return DiaryUploadResponse.builder()
             .title(diaryUploadRequest.getTitle())
@@ -159,6 +160,7 @@ public class DiaryServiceImpl implements DiaryService {
         diary.update(diaryUpdateRequest, filePaths);
 
         diaryRepository.save(diary);
+        saveDiaryDocuments();
 
         return DiaryUpdateResponse.builder()
             .title(diary.getTitle())
@@ -180,6 +182,7 @@ public class DiaryServiceImpl implements DiaryService {
         }
 
         deleteFiles(diary);
+        saveDiaryDocuments();
 
         diaryRepository.delete(diary);
     }
@@ -249,8 +252,7 @@ public class DiaryServiceImpl implements DiaryService {
         return diarySearchQueryRepository.searchDiariesBySearchCond(searchCond, pageable);
     }
 
-    @Override
-    public void saveDiaryDocuments() {
+    private void saveDiaryDocuments() {
         List<DiaryDocument> diaryDocumentList = diaryRepository.findAll().stream()
             .map(DiaryDocument::from)
             .collect(Collectors.toList());

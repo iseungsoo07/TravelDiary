@@ -37,8 +37,7 @@ public class DiaryDocument {
 
     public static DiaryDocument from(Diary diary) {
 
-        log.info(String.valueOf(diary.getCreatedAt()));
-        log.info(String.valueOf(diary.getCreatedAt()));
+        log.info(String.valueOf(diary.getHashtags()));
 
         return DiaryDocument.builder()
             .id(diary.getId())

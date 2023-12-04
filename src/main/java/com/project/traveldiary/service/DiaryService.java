@@ -35,5 +35,4 @@ public interface DiaryService {
 
     Page<DiaryDocument> searchDiaries(SearchCond searchCond, Pageable pageable);
 
-    void saveDiaryDocuments();
 }

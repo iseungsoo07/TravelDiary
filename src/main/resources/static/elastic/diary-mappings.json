@@ -9,7 +9,8 @@
         "keyword": {
           "type": "keyword"
         }
-      }
+      },
+      "analyzer": "standard"
     },
     "title": {
       "type": "text",
@@ -27,7 +28,7 @@
           "type": "keyword"
         }
       },
-      "analyzer": "korean"
+      "analyzer": "standard"
     },
     "likeCount": {
       "type": "long"
