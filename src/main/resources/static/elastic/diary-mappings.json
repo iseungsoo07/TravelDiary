@@ -1,0 +1,40 @@
+{
+  "properties": {
+    "id": {
+      "type": "long"
+    },
+    "writer": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      },
+      "analyzer": "standard"
+    },
+    "title": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      },
+      "analyzer": "korean"
+    },
+    "hashtags": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      },
+      "analyzer": "standard"
+    },
+    "likeCount": {
+      "type": "long"
+    },
+    "commentCount": {
+      "type": "long"
+    }
+  }
+}
