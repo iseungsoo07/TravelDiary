@@ -264,7 +264,7 @@ public class DiaryServiceImpl implements DiaryService {
         DiaryDocument diaryDocument = DiaryDocument.from(diary);
         diarySearchRepository.delete(diaryDocument);
     }
-
+  
     private List<String> uploadFiles(List<MultipartFile> files) {
         List<String> filePaths = new ArrayList<>();
 
