@@ -7,9 +7,12 @@ import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.project.traveldiary.dto.DiaryUpdateResponse;
 import com.project.traveldiary.dto.DiaryUploadRequest;
 import com.project.traveldiary.dto.DiaryUploadResponse;
+import com.project.traveldiary.es.DiaryDocument;
+import com.project.traveldiary.es.SearchCond;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface DiaryService {
@@ -29,4 +32,7 @@ public interface DiaryService {
     DiaryLikeResponse likeDiary(Long id, String userId);
 
     DiaryLikeResponse cancelLikeDiary(Long id, String userId);
+
+    Page<DiaryDocument> searchDiaries(SearchCond searchCond, Pageable pageable);
+
 }

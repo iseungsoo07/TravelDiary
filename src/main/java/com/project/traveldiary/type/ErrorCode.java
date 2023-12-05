@@ -35,6 +35,7 @@ public enum ErrorCode {
     CAN_DELETE_OWN_DIARY("본인 일기만 삭제할 수 있습니다."),
     LOCK_ALREADY_ASSIGNED("잠시 후 다시 시도 해주세요."),
     LOCK_ACQUSITION_FAIL("잠시 후 다시 시도 해주세요."),
+    INVALID_SEARCH_CONDITION("잘못된 검색 조건입니다."),
 
     // Like
     ALREADY_LIKE_DIARY("이미 좋아요한 게시글입니다."),

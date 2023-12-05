@@ -17,6 +17,9 @@ spring:
   redis:
     host: localhost
     port: 6379
+  elasticsearch:
+    cluster-names: travelDiary
+    cluster-node: localhost:9200
 
 cloud:
   aws:
@@ -36,3 +39,9 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
+    org:
+      springframework:
+        data:
+          elasticsearch:
+            client:
+              wire: trace
