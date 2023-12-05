@@ -1,5 +1,7 @@
 package com.project.traveldiary.controller;
 
+import com.project.traveldiary.dto.CommentRequest;
+import com.project.traveldiary.dto.CommentResponse;
 import com.project.traveldiary.dto.DiaryDeleteResponse;
 import com.project.traveldiary.dto.DiaryDetailResponse;
 import com.project.traveldiary.dto.DiaryLikeResponse;
@@ -46,7 +48,7 @@ public class DiaryController {
         @RequestPart("diaryUploadRequest") @Valid DiaryUploadRequest diaryUploadRequest,
         @RequestHeader("X-AUTH-TOKEN") String token) throws IOException {
 
-        String userId = tokenProvider.getUsername(token);
+        String userId = getCurrentUserId(token);
 
         return ResponseEntity.ok(diaryService.uploadDiary(files, diaryUploadRequest, userId));
     }
@@ -70,7 +72,7 @@ public class DiaryController {
         @RequestPart("diaryUpdateRequest") @Valid DiaryUpdateRequest diaryUpdateRequest,
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
-        String userId = tokenProvider.getUsername(token);
+        String userId = getCurrentUserId(token);
 
         return ResponseEntity.ok(diaryService.updateDiary(id, files, diaryUpdateRequest, userId));
     }
@@ -79,7 +81,7 @@ public class DiaryController {
     public ResponseEntity<DiaryDeleteResponse> deleteDiary(@PathVariable Long id,
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
-        String userId = tokenProvider.getUsername(token);
+        String userId = getCurrentUserId(token);
 
         diaryService.deleteDiary(id, userId);
 
@@ -92,7 +94,7 @@ public class DiaryController {
     public ResponseEntity<DiaryLikeResponse> likeDiary(@PathVariable Long id,
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
-        String userId = tokenProvider.getUsername(token);
+        String userId = getCurrentUserId(token);
 
         DiaryLikeResponse diaryLikeResponse = diaryService.likeDiary(id, userId);
 
@@ -110,7 +112,7 @@ public class DiaryController {
     public ResponseEntity<DiaryLikeResponse> cancelLikeDiary(@PathVariable Long id,
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
-        String userId = tokenProvider.getUsername(token);
+        String userId = getCurrentUserId(token);
 
         DiaryLikeResponse diaryLikeResponse = diaryService.cancelLikeDiary(id, userId);
 
@@ -129,4 +131,37 @@ public class DiaryController {
         return ResponseEntity.ok(diaryService.searchDiaries(searchCond, pageable));
     }
 
+    @PostMapping("/diary/{id}/comment")
+    public ResponseEntity<CommentResponse> createComment(@PathVariable Long id,
+        @RequestBody CommentRequest commentRequest,
+        @RequestHeader("X-AUTH-TOKEN") String token) {
+
+        String userId = getCurrentUserId(token);
+
+        return ResponseEntity.ok(diaryService.createComment(id, commentRequest, userId));
+    }
+
+    @PostMapping("/diary/{diaryId}/comment/{commentId}/reply")
+    public ResponseEntity<CommentResponse> replyComment(@PathVariable Long diaryId,
+        @PathVariable Long commentId,
+        @RequestBody CommentRequest commentRequest,
+        @RequestHeader("X-AUTH-TOKEN") String token) {
+
+        String userId = getCurrentUserId(token);
+
+        return ResponseEntity.ok(
+            diaryService.replyComment(diaryId, commentId, commentRequest, userId));
+    }
+
+    @GetMapping("/diary/{id}/comments")
+    public ResponseEntity<Page<CommentResponse>> getComments(@PathVariable Long id,
+        @PageableDefault Pageable pageable) {
+
+        return ResponseEntity.ok(diaryService.getComments(id, pageable));
+    }
+
+
+    private String getCurrentUserId(String token) {
+        return tokenProvider.getUsername(token);
+    }
 }

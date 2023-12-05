@@ -5,6 +5,7 @@ import static com.project.traveldiary.type.ErrorCode.CAN_DELETE_OWN_DIARY;
 import static com.project.traveldiary.type.ErrorCode.CAN_UPDATE_OWN_DIARY;
 import static com.project.traveldiary.type.ErrorCode.FAIL_DELETE_FILE;
 import static com.project.traveldiary.type.ErrorCode.FAIL_UPLOAD_FILE;
+import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_COMMENT;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_DIARY;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_LIKE;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
@@ -12,6 +13,8 @@ import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.project.traveldiary.aop.DistributedLock;
+import com.project.traveldiary.dto.CommentRequest;
+import com.project.traveldiary.dto.CommentResponse;
 import com.project.traveldiary.dto.DiaryDetailResponse;
 import com.project.traveldiary.dto.DiaryLikeResponse;
 import com.project.traveldiary.dto.DiaryResponse;
@@ -19,14 +22,17 @@ import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.project.traveldiary.dto.DiaryUpdateResponse;
 import com.project.traveldiary.dto.DiaryUploadRequest;
 import com.project.traveldiary.dto.DiaryUploadResponse;
+import com.project.traveldiary.entity.Comment;
 import com.project.traveldiary.entity.Diary;
 import com.project.traveldiary.entity.Likes;
 import com.project.traveldiary.entity.User;
 import com.project.traveldiary.es.DiaryDocument;
 import com.project.traveldiary.es.SearchCond;
+import com.project.traveldiary.exception.CommentException;
 import com.project.traveldiary.exception.DiaryException;
 import com.project.traveldiary.exception.LikeException;
 import com.project.traveldiary.exception.UserException;
+import com.project.traveldiary.repository.CommentRepository;
 import com.project.traveldiary.repository.DiaryRepository;
 import com.project.traveldiary.repository.DiarySearchQueryRepository;
 import com.project.traveldiary.repository.DiarySearchRepository;
@@ -66,6 +72,7 @@ public class DiaryServiceImpl implements DiaryService {
     private final AmazonS3Client amazonS3;
     private final DiarySearchRepository diarySearchRepository;
     private final DiarySearchQueryRepository diarySearchQueryRepository;
+    private final CommentRepository commentRepository;
 
     @Override
     @Transactional
@@ -252,6 +259,71 @@ public class DiaryServiceImpl implements DiaryService {
         return diarySearchQueryRepository.searchDiariesBySearchCond(searchCond, pageable);
     }
 
+    @Override
+    public CommentResponse createComment(Long id, CommentRequest commentRequest, String userId) {
+        User user = userRepository.findByUserId(userId)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        Diary diary = diaryRepository.findById(id)
+            .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
+
+        Comment comment = Comment.builder()
+            .diary(diary)
+            .user(user)
+            .parentCommentId(null)
+            .content(commentRequest.getContent())
+            .build();
+
+        commentRepository.save(comment);
+
+        return CommentResponse.builder()
+            .parentCommentId(comment.getParentCommentId())
+            .writer(comment.getUser().getNickname())
+            .content(comment.getContent())
+            .build();
+
+    }
+
+    @Override
+    public CommentResponse replyComment(Long diaryId, Long commentId, CommentRequest commentRequest,
+        String userId) {
+
+        User user = userRepository.findByUserId(userId)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        Diary diary = diaryRepository.findById(diaryId)
+            .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
+
+        Comment comment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new CommentException(NOT_FOUND_COMMENT));
+
+        Comment reply = Comment.builder()
+            .diary(diary)
+            .user(user)
+            .parentCommentId(comment.getId())
+            .content(commentRequest.getContent())
+            .build();
+
+        commentRepository.save(reply);
+
+        return CommentResponse.builder()
+            .parentCommentId(reply.getParentCommentId())
+            .writer(reply.getUser().getNickname())
+            .content(reply.getContent())
+            .build();
+    }
+
+    @Override
+    public Page<CommentResponse> getComments(Long id, Pageable pageable) {
+        Diary diary = diaryRepository.findById(id)
+            .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
+
+        Page<Comment> comments = commentRepository.findByDiary(diary, pageable);
+
+        return CommentResponse.commentList(comments);
+
+    }
+
     private void saveDiaryDocuments() {
         List<DiaryDocument> diaryDocumentList = diaryRepository.findAll().stream()
             .map(DiaryDocument::from)
@@ -264,7 +336,7 @@ public class DiaryServiceImpl implements DiaryService {
         DiaryDocument diaryDocument = DiaryDocument.from(diary);
         diarySearchRepository.delete(diaryDocument);
     }
-  
+
     private List<String> uploadFiles(List<MultipartFile> files) {
         List<String> filePaths = new ArrayList<>();
 

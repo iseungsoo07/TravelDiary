@@ -1,0 +1,12 @@
+### 댓글 수정
+PUT http://localhost:8080/comment/3
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTc1NjE3NiwiZXhwIjoxNzAxNzU5Nzc2fQ.WBRb2PqsTki78hxdNte0oAl2Nm4KCVXB8l0OEQE3kC_6T6CXv7_MTiz8kHIQKtG5ALGW2VCr99eDmRGvE8hcLA
+Content-Type: application/json
+
+{
+  "content": "멋지냐?"
+}
+
+### 댓글 삭제
+DELETE http://localhost:8080/comment/2
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTc1NjczMSwiZXhwIjoxNzAxNzYwMzMxfQ.3Esm2uLhADCuFJgbmf987E4YbfqpAyW96EXRMWK0X34Uk79m0SL2WcbefGetqIomaIu5k1nokuGEF96MMPN4cA

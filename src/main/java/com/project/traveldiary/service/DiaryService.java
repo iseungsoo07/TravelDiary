@@ -1,5 +1,7 @@
 package com.project.traveldiary.service;
 
+import com.project.traveldiary.dto.CommentRequest;
+import com.project.traveldiary.dto.CommentResponse;
 import com.project.traveldiary.dto.DiaryDetailResponse;
 import com.project.traveldiary.dto.DiaryLikeResponse;
 import com.project.traveldiary.dto.DiaryResponse;
@@ -35,4 +37,9 @@ public interface DiaryService {
 
     Page<DiaryDocument> searchDiaries(SearchCond searchCond, Pageable pageable);
 
+    CommentResponse createComment(Long id, CommentRequest commentRequest, String userId);
+
+    CommentResponse replyComment(Long diaryId, Long commentId, CommentRequest commentRequest, String userId);
+
+    Page<CommentResponse> getComments(Long id, Pageable pageable);
 }
