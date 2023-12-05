@@ -160,6 +160,7 @@ public class DiaryServiceImpl implements DiaryService {
         diary.update(diaryUpdateRequest, filePaths);
 
         diaryRepository.save(diary);
+        deleteDiaryDocument(diary);
         saveDiaryDocuments();
 
         return DiaryUpdateResponse.builder()
@@ -182,9 +183,8 @@ public class DiaryServiceImpl implements DiaryService {
         }
 
         deleteFiles(diary);
-        saveDiaryDocuments();
-
         diaryRepository.delete(diary);
+        deleteDiaryDocument(diary);
     }
 
     @Override
@@ -260,6 +260,10 @@ public class DiaryServiceImpl implements DiaryService {
         diarySearchRepository.saveAll(diaryDocumentList);
     }
 
+    private void deleteDiaryDocument(Diary diary) {
+        DiaryDocument diaryDocument = DiaryDocument.from(diary);
+        diarySearchRepository.delete(diaryDocument);
+    }
 
     private List<String> uploadFiles(List<MultipartFile> files) {
         List<String> filePaths = new ArrayList<>();
