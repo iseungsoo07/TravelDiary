@@ -25,6 +25,7 @@ public enum ErrorCode {
 
     // FOLLOW
     ALREADY_FOLLOWED_USER("이미 팔로우 중인 사용자입니다."),
+    NOT_FOUND_FOLLOW("일치하는 팔로우 정보가 없습니다."),
 
     // Diary
     FAIL_UPLOAD_FILE("파일 업로드에 실패했습니다."),
@@ -34,6 +35,7 @@ public enum ErrorCode {
     CAN_DELETE_OWN_DIARY("본인 일기만 삭제할 수 있습니다."),
     LOCK_ALREADY_ASSIGNED("잠시 후 다시 시도 해주세요."),
     LOCK_ACQUSITION_FAIL("잠시 후 다시 시도 해주세요."),
+    INVALID_SEARCH_CONDITION("잘못된 검색 조건입니다."),
 
     // Like
     ALREADY_LIKE_DIARY("이미 좋아요한 게시글입니다."),

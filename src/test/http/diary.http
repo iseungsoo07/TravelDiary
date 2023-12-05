@@ -17,3 +17,17 @@ X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTIzOTA4MCwiZ
 ### 일기 좋아요 취소
 DELETE http://localhost:8080/diary/2/cancel/like
 X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTIzOTA4MCwiZXhwIjoxNzAxMjQyNjgwfQ.pgB7UXHqYv4iIEUe-HK2mQAXFWe3PSyO-aMYW8gihdShj5sS4OVucYd26eSmW7zw9W9Ywu8JWkxU4Hq2TIsc6Q
+
+### Document 추가
+POST http://localhost:8080/diary-documents
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTYxMDMwOSwiZXhwIjoxNzAxNjEzOTA5fQ.P-CR3tOATQbRO2H26Oib3-84M69VTE3yVJBH1Ijsg04WaLvwIAdhV6wxaebI-Bx2MnwoAJcYBZ28YHssZvHhMg
+
+### 일기 검색
+GET http://localhost:8080/diary/search
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTY0ODYxMiwiZXhwIjoxNzAxNjUyMjEyfQ.DQ4kc12itZosoxbf7bw_Zzd2NXP4ky52HoCFmYH4MPhPyiCxgHGXUDs6tGyYt3373g2F9UFGzm_---ncuLABTQ
+Content-Type: application/json
+
+{
+  "searchType": "HASHTAGS",
+  "content": "여행"
+}

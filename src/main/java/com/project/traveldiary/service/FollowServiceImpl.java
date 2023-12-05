@@ -1,6 +1,7 @@
 package com.project.traveldiary.service;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_FOLLOWED_USER;
+import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_FOLLOW;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
 import com.project.traveldiary.dto.FollowListResponse;
@@ -26,11 +27,11 @@ public class FollowServiceImpl implements FollowService {
     private final FollowRepository followRepository;
 
     @Override
-    public FollowResponse follow(String follower_id, Long following_id) {
-        User follower = userRepository.findByUserId(follower_id)
+    public FollowResponse follow(String followerId, Long followingId) {
+        User follower = userRepository.findByUserId(followerId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
-        User following = userRepository.findById(following_id)
+        User following = userRepository.findById(followingId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
         if (followRepository.existsByFollowerAndFollowing(follower, following)) {
@@ -47,7 +48,25 @@ public class FollowServiceImpl implements FollowService {
         return FollowResponse.builder()
             .follower(follower.getNickname())
             .following(following.getNickname())
-            .message(follower.getNickname() + "님이 " + following.getNickname() + "님을 팔로우 했습니다.")
+            .build();
+    }
+
+    @Override
+    public FollowResponse cancelFollow(String followerId, Long followingId) {
+        User follower = userRepository.findByUserId(followerId)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        User following = userRepository.findById(followingId)
+            .orElseThrow(() -> new UserException(NOT_FOUND_USER));
+
+        Follow follow = followRepository.findByFollowerAndFollowing(follower, following)
+            .orElseThrow(() -> new FollowException(NOT_FOUND_FOLLOW));
+
+        followRepository.delete(follow);
+
+        return FollowResponse.builder()
+            .follower(follower.getNickname())
+            .following(following.getNickname())
             .build();
 
     }
@@ -93,4 +112,5 @@ public class FollowServiceImpl implements FollowService {
 
         return followRepository.countByFollower(user);
     }
+
 }
