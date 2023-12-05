@@ -36,9 +36,6 @@ public class DiaryDocument {
     private long commentCount;
 
     public static DiaryDocument from(Diary diary) {
-
-        log.info(String.valueOf(diary.getHashtags()));
-
         return DiaryDocument.builder()
             .id(diary.getId())
             .writer(diary.getUser().getNickname())
