@@ -2,6 +2,7 @@ package com.project.traveldiary.service;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_LIKE_DIARY;
 import static com.project.traveldiary.type.ErrorCode.CAN_DELETE_OWN_DIARY;
+import static com.project.traveldiary.type.ErrorCode.CAN_REPLY_ON_COMMENT;
 import static com.project.traveldiary.type.ErrorCode.CAN_UPDATE_OWN_DIARY;
 import static com.project.traveldiary.type.ErrorCode.FAIL_DELETE_FILE;
 import static com.project.traveldiary.type.ErrorCode.FAIL_UPLOAD_FILE;
@@ -13,6 +14,7 @@ import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.project.traveldiary.aop.DistributedLock;
+import com.project.traveldiary.dto.CommentHierarchyResponse;
 import com.project.traveldiary.dto.CommentRequest;
 import com.project.traveldiary.dto.CommentResponse;
 import com.project.traveldiary.dto.DiaryDetailResponse;
@@ -50,6 +52,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -145,7 +148,7 @@ public class DiaryServiceImpl implements DiaryService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
         Page<Diary> diaries = diaryRepository.findByUser(user, pageable);
 
-        return DiaryResponse.diaryList(diaries);
+        return diaries.map(DiaryResponse::of);
     }
 
     @Override
@@ -260,6 +263,8 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
+    @Transactional
+    @DistributedLock(prefix = "comment_diary")
     public CommentResponse createComment(Long id, CommentRequest commentRequest, String userId) {
         User user = userRepository.findByUserId(userId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
@@ -276,6 +281,9 @@ public class DiaryServiceImpl implements DiaryService {
 
         commentRepository.save(comment);
 
+        diary.increaseCommentCount();
+        diaryRepository.save(diary);
+
         return CommentResponse.builder()
             .parentCommentId(comment.getParentCommentId())
             .writer(comment.getUser().getNickname())
@@ -285,6 +293,8 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
+    @Transactional
+    @DistributedLock(prefix = "comment_diary")
     public CommentResponse replyComment(Long diaryId, Long commentId, CommentRequest commentRequest,
         String userId) {
 
@@ -297,6 +307,10 @@ public class DiaryServiceImpl implements DiaryService {
         Comment comment = commentRepository.findById(commentId)
             .orElseThrow(() -> new CommentException(NOT_FOUND_COMMENT));
 
+        if (comment.getParentCommentId() != null) {
+            throw new CommentException(CAN_REPLY_ON_COMMENT);
+        }
+
         Comment reply = Comment.builder()
             .diary(diary)
             .user(user)
@@ -305,6 +319,8 @@ public class DiaryServiceImpl implements DiaryService {
             .build();
 
         commentRepository.save(reply);
+        diary.increaseCommentCount();
+        diaryRepository.save(diary);
 
         return CommentResponse.builder()
             .parentCommentId(reply.getParentCommentId())
@@ -314,14 +330,34 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public Page<CommentResponse> getComments(Long id, Pageable pageable) {
+    public Page<CommentHierarchyResponse> getComments(Long id, Pageable pageable) {
         Diary diary = diaryRepository.findById(id)
             .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
 
-        Page<Comment> comments = commentRepository.findByDiary(diary, pageable);
+        Page<Comment> commentPage = commentRepository.findByDiary(diary, pageable);
 
-        return CommentResponse.commentList(comments);
+        List<CommentHierarchyResponse> list = new ArrayList<>();
 
+        for (Comment comment : commentPage) {
+            if (comment.getParentCommentId() == null) {
+                CommentResponse commentResponse = CommentResponse.builder()
+                    .writer(comment.getUser().getNickname())
+                    .content(comment.getContent())
+                    .build();
+
+                Page<Comment> replies = commentRepository.findByParentCommentIdOrderByCreatedAtAsc(
+                    comment.getId(), pageable);
+
+                CommentHierarchyResponse commentHierarchyResponse = CommentHierarchyResponse.builder()
+                    .comment(commentResponse)
+                    .replies(replies.map(CommentResponse::of))
+                    .build();
+
+                list.add(commentHierarchyResponse);
+            }
+        }
+
+        return new PageImpl<>(list);
     }
 
     private void saveDiaryDocuments() {

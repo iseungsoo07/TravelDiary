@@ -1,5 +1,6 @@
 package com.project.traveldiary.service;
 
+import com.project.traveldiary.dto.CommentHierarchyResponse;
 import com.project.traveldiary.dto.CommentRequest;
 import com.project.traveldiary.dto.CommentResponse;
 import com.project.traveldiary.dto.DiaryDetailResponse;
@@ -41,5 +42,5 @@ public interface DiaryService {
 
     CommentResponse replyComment(Long diaryId, Long commentId, CommentRequest commentRequest, String userId);
 
-    Page<CommentResponse> getComments(Long id, Pageable pageable);
+    Page<CommentHierarchyResponse> getComments(Long id, Pageable pageable);
 }

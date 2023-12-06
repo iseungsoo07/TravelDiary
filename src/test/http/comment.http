@@ -8,5 +8,5 @@ Content-Type: application/json
 }
 
 ### 댓글 삭제
-DELETE http://localhost:8080/comment/2
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTc1NjczMSwiZXhwIjoxNzAxNzYwMzMxfQ.3Esm2uLhADCuFJgbmf987E4YbfqpAyW96EXRMWK0X34Uk79m0SL2WcbefGetqIomaIu5k1nokuGEF96MMPN4cA
+DELETE http://localhost:8080/comment/1
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTg1MDQ2MiwiZXhwIjoxNzAxODU0MDYyfQ.ivlA-uFHmsuMNLqrrqQrnLE-cSlVsf0daEelUqV_RJYDaufhRLpgghImkX88UEcdbWyeqpePFgMo833oJRLhpA

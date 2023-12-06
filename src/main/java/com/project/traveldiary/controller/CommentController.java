@@ -5,7 +5,6 @@ import com.project.traveldiary.dto.CommentRequest;
 import com.project.traveldiary.dto.CommentResponse;
 import com.project.traveldiary.security.TokenProvider;
 import com.project.traveldiary.service.CommentService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +14,15 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
-public class CommentController {
+public class CommentController extends BaseController {
 
-    private final TokenProvider tokenProvider;
     private final CommentService commentService;
+
+    public CommentController(TokenProvider tokenProvider,
+        CommentService commentService) {
+        super(tokenProvider);
+        this.commentService = commentService;
+    }
 
     @PutMapping("/comment/{id}")
     public ResponseEntity<CommentResponse> updateComment(@PathVariable Long id, @RequestBody
@@ -39,9 +42,5 @@ public class CommentController {
         return ResponseEntity.ok(CommentDeleteResponse.builder()
             .message("댓글이 삭제되었습니다.")
             .build());
-    }
-
-    private String getCurrentUserId(String token) {
-        return tokenProvider.getUsername(token);
     }
 }

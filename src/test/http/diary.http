@@ -33,17 +33,17 @@ Content-Type: application/json
 }
 
 ### 댓글 달기
-POST http://localhost:8080/diary/2/comment
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTc1NzgzMywiZXhwIjoxNzAxNzYxNDMzfQ.djxqUFy3bfcDXo7EEr8xcQIyHZ1ftvKsKU5I6hYbP5DSFu_umrU0h9hbos2qEFbBRUco-YSturMY4Jhy5uoW-Q
+POST http://localhost:8080/diary/1/comment
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTg1MDQ2MiwiZXhwIjoxNzAxODU0MDYyfQ.ivlA-uFHmsuMNLqrrqQrnLE-cSlVsf0daEelUqV_RJYDaufhRLpgghImkX88UEcdbWyeqpePFgMo833oJRLhpA
 Content-Type: application/json
 
 {
-  "content": "정말 재밌었겠네요"
+  "content": "댓글 많이 달아주세요!!"
 }
 
 ### 대댓글 달기
-POST http://localhost:8080/diary/2/comment/11/reply
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTc1Nzg1OSwiZXhwIjoxNzAxNzYxNDU5fQ._p-ySptoa34RDzUAIWNOQx03Wq8Tk-qLcatbNGvHFkNlFz5MhSAyvdgzEOaoMWcAwsp3xxi60gRJX5nF37Fuiw
+POST http://localhost:8080/diary/1/comment/2/reply
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTg1MDQ2MiwiZXhwIjoxNzAxODU0MDYyfQ.ivlA-uFHmsuMNLqrrqQrnLE-cSlVsf0daEelUqV_RJYDaufhRLpgghImkX88UEcdbWyeqpePFgMo833oJRLhpA
 Content-Type: application/json
 
 {
@@ -51,5 +51,5 @@ Content-Type: application/json
 }
 
 ### 댓글 목록
-GET http://localhost:8080/diary/2/comments
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTc1Nzg1OSwiZXhwIjoxNzAxNzYxNDU5fQ._p-ySptoa34RDzUAIWNOQx03Wq8Tk-qLcatbNGvHFkNlFz5MhSAyvdgzEOaoMWcAwsp3xxi60gRJX5nF37Fuiw
+GET http://localhost:8080/diary/1/comments
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTg1MDQ2MiwiZXhwIjoxNzAxODU0MDYyfQ.ivlA-uFHmsuMNLqrrqQrnLE-cSlVsf0daEelUqV_RJYDaufhRLpgghImkX88UEcdbWyeqpePFgMo833oJRLhpA

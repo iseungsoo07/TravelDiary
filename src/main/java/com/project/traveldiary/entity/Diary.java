@@ -78,4 +78,14 @@ public class Diary {
         this.likeCount -= 1;
     }
 
+    public void increaseCommentCount() {
+        this.commentCount += 1;
+    }
+
+    public void decreaseCommentCount(long count) {
+        this.commentCount -= count;
+    }
+
+
+
 }

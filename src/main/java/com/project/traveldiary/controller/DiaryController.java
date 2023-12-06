@@ -1,5 +1,6 @@
 package com.project.traveldiary.controller;
 
+import com.project.traveldiary.dto.CommentHierarchyResponse;
 import com.project.traveldiary.dto.CommentRequest;
 import com.project.traveldiary.dto.CommentResponse;
 import com.project.traveldiary.dto.DiaryDeleteResponse;
@@ -17,7 +18,6 @@ import com.project.traveldiary.service.DiaryService;
 import java.io.IOException;
 import java.util.List;
 import javax.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -36,11 +36,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequiredArgsConstructor
-public class DiaryController {
+public class DiaryController extends BaseController {
 
     private final DiaryService diaryService;
-    private final TokenProvider tokenProvider;
+
+    public DiaryController(TokenProvider tokenProvider, DiaryService diaryService) {
+        super(tokenProvider);
+        this.diaryService = diaryService;
+    }
 
     @PostMapping("/diary")
     public ResponseEntity<DiaryUploadResponse> uploadDiary(
@@ -154,14 +157,11 @@ public class DiaryController {
     }
 
     @GetMapping("/diary/{id}/comments")
-    public ResponseEntity<Page<CommentResponse>> getComments(@PathVariable Long id,
+    public ResponseEntity<Page<CommentHierarchyResponse>> getComments(@PathVariable Long id,
         @PageableDefault Pageable pageable) {
 
         return ResponseEntity.ok(diaryService.getComments(id, pageable));
     }
 
 
-    private String getCurrentUserId(String token) {
-        return tokenProvider.getUsername(token);
-    }
 }

@@ -6,7 +6,6 @@ import com.project.traveldiary.dto.FollowResponse;
 import com.project.traveldiary.security.TokenProvider;
 import com.project.traveldiary.service.FollowService;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,18 +17,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/follow")
-public class FollowController {
+public class FollowController extends BaseController {
 
     private final FollowService followService;
-    private final TokenProvider tokenProvider;
+
+    public FollowController(TokenProvider tokenProvider, FollowService followService) {
+        super(tokenProvider);
+        this.followService = followService;
+    }
 
     @PostMapping("/{id}")
     public ResponseEntity<FollowResponse> follow(@PathVariable Long id,
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
-        String userId = tokenProvider.getUsername(token);
+        String userId = getCurrentUserId(token);
 
         FollowResponse followResponse = followService.follow(userId, id);
         followResponse.setMessage(
@@ -43,7 +45,7 @@ public class FollowController {
     public ResponseEntity<FollowResponse> cancelFollow(@PathVariable Long id,
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
-        String userId = tokenProvider.getUsername(token);
+        String userId = getCurrentUserId(token);
 
         return ResponseEntity.ok(followService.cancelFollow(userId, id));
     }
