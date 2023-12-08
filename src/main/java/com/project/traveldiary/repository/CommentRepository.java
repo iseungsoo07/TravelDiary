@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    Page<Comment> findByDiary(Diary diary, Pageable pageable);
+    Page<Comment> findByDiaryAndParentCommentIdIsNullOrderByCreatedAtAsc(Diary diary,
+        Pageable pageable);
 
     long countByParentCommentId(Long parentCommentId);
 
@@ -18,4 +19,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Page<Comment> findByParentCommentIdOrderByCreatedAtAsc(Long parentCommentId, Pageable pageable);
 
+    boolean existsByParentCommentId(Long parentCommentId);
 }

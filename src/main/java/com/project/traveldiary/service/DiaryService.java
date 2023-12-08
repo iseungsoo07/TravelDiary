@@ -1,8 +1,8 @@
 package com.project.traveldiary.service;
 
-import com.project.traveldiary.dto.CommentHierarchyResponse;
 import com.project.traveldiary.dto.CommentRequest;
 import com.project.traveldiary.dto.CommentResponse;
+import com.project.traveldiary.dto.CreateCommentResponse;
 import com.project.traveldiary.dto.DiaryDetailResponse;
 import com.project.traveldiary.dto.DiaryLikeResponse;
 import com.project.traveldiary.dto.DiaryResponse;
@@ -10,6 +10,8 @@ import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.project.traveldiary.dto.DiaryUpdateResponse;
 import com.project.traveldiary.dto.DiaryUploadRequest;
 import com.project.traveldiary.dto.DiaryUploadResponse;
+import com.project.traveldiary.dto.ReplyCommentResponse;
+import com.project.traveldiary.dto.ReplyResponse;
 import com.project.traveldiary.es.DiaryDocument;
 import com.project.traveldiary.es.SearchCond;
 import java.io.IOException;
@@ -38,9 +40,12 @@ public interface DiaryService {
 
     Page<DiaryDocument> searchDiaries(SearchCond searchCond, Pageable pageable);
 
-    CommentResponse createComment(Long id, CommentRequest commentRequest, String userId);
+    CreateCommentResponse createComment(Long id, CommentRequest commentRequest, String userId);
 
-    CommentResponse replyComment(Long diaryId, Long commentId, CommentRequest commentRequest, String userId);
+    ReplyCommentResponse replyComment(Long diaryId, Long commentId, CommentRequest commentRequest,
+        String userId);
 
-    Page<CommentHierarchyResponse> getComments(Long id, Pageable pageable);
+    Page<CommentResponse> getComments(Long id, Pageable pageable);
+
+    Page<ReplyResponse> getReplies(Long commentId, Pageable pageable);
 }

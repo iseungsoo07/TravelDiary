@@ -5,16 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.domain.Page;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CommentHierarchyResponse {
+public class ReplyCommentResponse {
 
-    private CommentResponse comment;
-    private Page<CommentResponse> replies;
-
+    private Long parentCommentId;
+    private String writer;
+    private String content;
 }

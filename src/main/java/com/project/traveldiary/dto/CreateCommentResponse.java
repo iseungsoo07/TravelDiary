@@ -11,10 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CommentResponse {
+public class CreateCommentResponse {
 
     private Long parentCommentId;
     private String writer;
     private String content;
-    private boolean hasReplies;
 }

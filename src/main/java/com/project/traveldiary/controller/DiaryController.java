@@ -1,8 +1,8 @@
 package com.project.traveldiary.controller;
 
-import com.project.traveldiary.dto.CommentHierarchyResponse;
 import com.project.traveldiary.dto.CommentRequest;
 import com.project.traveldiary.dto.CommentResponse;
+import com.project.traveldiary.dto.CreateCommentResponse;
 import com.project.traveldiary.dto.DiaryDeleteResponse;
 import com.project.traveldiary.dto.DiaryDetailResponse;
 import com.project.traveldiary.dto.DiaryLikeResponse;
@@ -11,6 +11,8 @@ import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.project.traveldiary.dto.DiaryUpdateResponse;
 import com.project.traveldiary.dto.DiaryUploadRequest;
 import com.project.traveldiary.dto.DiaryUploadResponse;
+import com.project.traveldiary.dto.ReplyCommentResponse;
+import com.project.traveldiary.dto.ReplyResponse;
 import com.project.traveldiary.es.DiaryDocument;
 import com.project.traveldiary.es.SearchCond;
 import com.project.traveldiary.security.TokenProvider;
@@ -135,7 +137,7 @@ public class DiaryController extends BaseController {
     }
 
     @PostMapping("/diary/{id}/comment")
-    public ResponseEntity<CommentResponse> createComment(@PathVariable Long id,
+    public ResponseEntity<CreateCommentResponse> createComment(@PathVariable Long id,
         @RequestBody CommentRequest commentRequest,
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
@@ -145,7 +147,7 @@ public class DiaryController extends BaseController {
     }
 
     @PostMapping("/diary/{diaryId}/comment/{commentId}/reply")
-    public ResponseEntity<CommentResponse> replyComment(@PathVariable Long diaryId,
+    public ResponseEntity<ReplyCommentResponse> replyComment(@PathVariable Long diaryId,
         @PathVariable Long commentId,
         @RequestBody CommentRequest commentRequest,
         @RequestHeader("X-AUTH-TOKEN") String token) {
@@ -157,11 +159,17 @@ public class DiaryController extends BaseController {
     }
 
     @GetMapping("/diary/{id}/comments")
-    public ResponseEntity<Page<CommentHierarchyResponse>> getComments(@PathVariable Long id,
-        @PageableDefault Pageable pageable) {
+    public ResponseEntity<Page<CommentResponse>> getComments(@PathVariable Long id,
+        Pageable pageable) {
 
         return ResponseEntity.ok(diaryService.getComments(id, pageable));
     }
 
+    @GetMapping("/comment/{commentId}/replies")
+    public ResponseEntity<Page<ReplyResponse>> getReplies(@PathVariable Long commentId,
+        @PageableDefault Pageable pageable) {
+
+        return ResponseEntity.ok(diaryService.getReplies(commentId, pageable));
+    }
 
 }

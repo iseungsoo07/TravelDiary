@@ -14,9 +14,9 @@ import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.project.traveldiary.aop.DistributedLock;
-import com.project.traveldiary.dto.CommentHierarchyResponse;
 import com.project.traveldiary.dto.CommentRequest;
 import com.project.traveldiary.dto.CommentResponse;
+import com.project.traveldiary.dto.CreateCommentResponse;
 import com.project.traveldiary.dto.DiaryDetailResponse;
 import com.project.traveldiary.dto.DiaryLikeResponse;
 import com.project.traveldiary.dto.DiaryResponse;
@@ -24,6 +24,8 @@ import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.project.traveldiary.dto.DiaryUpdateResponse;
 import com.project.traveldiary.dto.DiaryUploadRequest;
 import com.project.traveldiary.dto.DiaryUploadResponse;
+import com.project.traveldiary.dto.ReplyCommentResponse;
+import com.project.traveldiary.dto.ReplyResponse;
 import com.project.traveldiary.entity.Comment;
 import com.project.traveldiary.entity.Diary;
 import com.project.traveldiary.entity.Likes;
@@ -52,7 +54,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -265,7 +266,8 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     @Transactional
     @DistributedLock(prefix = "comment_diary")
-    public CommentResponse createComment(Long id, CommentRequest commentRequest, String userId) {
+    public CreateCommentResponse createComment(Long id, CommentRequest commentRequest,
+        String userId) {
         User user = userRepository.findByUserId(userId)
             .orElseThrow(() -> new UserException(NOT_FOUND_USER));
 
@@ -284,7 +286,7 @@ public class DiaryServiceImpl implements DiaryService {
         diary.increaseCommentCount();
         diaryRepository.save(diary);
 
-        return CommentResponse.builder()
+        return CreateCommentResponse.builder()
             .parentCommentId(comment.getParentCommentId())
             .writer(comment.getUser().getNickname())
             .content(comment.getContent())
@@ -295,7 +297,8 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     @Transactional
     @DistributedLock(prefix = "comment_diary")
-    public CommentResponse replyComment(Long diaryId, Long commentId, CommentRequest commentRequest,
+    public ReplyCommentResponse replyComment(Long diaryId, Long commentId,
+        CommentRequest commentRequest,
         String userId) {
 
         User user = userRepository.findByUserId(userId)
@@ -322,7 +325,7 @@ public class DiaryServiceImpl implements DiaryService {
         diary.increaseCommentCount();
         diaryRepository.save(diary);
 
-        return CommentResponse.builder()
+        return ReplyCommentResponse.builder()
             .parentCommentId(reply.getParentCommentId())
             .writer(reply.getUser().getNickname())
             .content(reply.getContent())
@@ -330,34 +333,30 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public Page<CommentHierarchyResponse> getComments(Long id, Pageable pageable) {
+    public Page<CommentResponse> getComments(Long id, Pageable pageable) {
         Diary diary = diaryRepository.findById(id)
             .orElseThrow(() -> new DiaryException(NOT_FOUND_DIARY));
 
-        Page<Comment> commentPage = commentRepository.findByDiary(diary, pageable);
+        Page<Comment> commentPage = commentRepository
+            .findByDiaryAndParentCommentIdIsNullOrderByCreatedAtAsc(diary, pageable);
 
-        List<CommentHierarchyResponse> list = new ArrayList<>();
+        return commentPage.map(comment -> CommentResponse.builder()
+            .parentCommentId(comment.getParentCommentId())
+            .writer(comment.getUser().getNickname())
+            .content(comment.getContent())
+            .hasReplies(commentRepository.existsByParentCommentId(comment.getId()))
+            .build());
+    }
 
-        for (Comment comment : commentPage) {
-            if (comment.getParentCommentId() == null) {
-                CommentResponse commentResponse = CommentResponse.builder()
-                    .writer(comment.getUser().getNickname())
-                    .content(comment.getContent())
-                    .build();
+    @Override
+    public Page<ReplyResponse> getReplies(Long commentId, Pageable pageable) {
+        Comment comment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new CommentException(NOT_FOUND_COMMENT));
 
-                Page<Comment> replies = commentRepository.findByParentCommentIdOrderByCreatedAtAsc(
-                    comment.getId(), pageable);
+        Page<Comment> commentPage = commentRepository.findByParentCommentIdOrderByCreatedAtAsc(
+            comment.getId(), pageable);
 
-                CommentHierarchyResponse commentHierarchyResponse = CommentHierarchyResponse.builder()
-                    .comment(commentResponse)
-                    .replies(replies.map(CommentResponse::of))
-                    .build();
-
-                list.add(commentHierarchyResponse);
-            }
-        }
-
-        return new PageImpl<>(list);
+        return commentPage.map(ReplyResponse::of);
     }
 
     private void saveDiaryDocuments() {
@@ -372,7 +371,7 @@ public class DiaryServiceImpl implements DiaryService {
         DiaryDocument diaryDocument = DiaryDocument.from(diary);
         diarySearchRepository.delete(diaryDocument);
     }
-  
+
     private List<String> uploadFiles(List<MultipartFile> files) {
         List<String> filePaths = new ArrayList<>();
 

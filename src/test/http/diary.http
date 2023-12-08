@@ -34,16 +34,16 @@ Content-Type: application/json
 
 ### 댓글 달기
 POST http://localhost:8080/diary/1/comment
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTg1MDQ2MiwiZXhwIjoxNzAxODU0MDYyfQ.ivlA-uFHmsuMNLqrrqQrnLE-cSlVsf0daEelUqV_RJYDaufhRLpgghImkX88UEcdbWyeqpePFgMo833oJRLhpA
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTkxMzM2MSwiZXhwIjoxNzAxOTE2OTYxfQ.x86Q0KIofyYhPz2rtlcLwNxaekvXs5zpUjdPDgB0ddwBJ8lQba8twGZRWVsQJoOlXP7t4zStgKwdcfpkyJ910g
 Content-Type: application/json
 
 {
-  "content": "댓글 많이 달아주세요!!"
+  "content": "댓글!!"
 }
 
 ### 대댓글 달기
-POST http://localhost:8080/diary/1/comment/2/reply
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTg1MDQ2MiwiZXhwIjoxNzAxODU0MDYyfQ.ivlA-uFHmsuMNLqrrqQrnLE-cSlVsf0daEelUqV_RJYDaufhRLpgghImkX88UEcdbWyeqpePFgMo833oJRLhpA
+POST http://localhost:8080/diary/1/comment/21/reply
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTkxMzM2MSwiZXhwIjoxNzAxOTE2OTYxfQ.x86Q0KIofyYhPz2rtlcLwNxaekvXs5zpUjdPDgB0ddwBJ8lQba8twGZRWVsQJoOlXP7t4zStgKwdcfpkyJ910g
 Content-Type: application/json
 
 {
@@ -51,5 +51,9 @@ Content-Type: application/json
 }
 
 ### 댓글 목록
-GET http://localhost:8080/diary/1/comments
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTg1MDQ2MiwiZXhwIjoxNzAxODU0MDYyfQ.ivlA-uFHmsuMNLqrrqQrnLE-cSlVsf0daEelUqV_RJYDaufhRLpgghImkX88UEcdbWyeqpePFgMo833oJRLhpA
+GET http://localhost:8080/diary/1/comments?page=0&size=6
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMjAxMDcxNSwiZXhwIjoxNzAyMDE0MzE1fQ.kcPnGpTd2sq_VS63QIJEHRzTKpZfbLVDVHhhhLNzwP4DU6GvrbkKtKHM8utDY2rEalY_JbgzrEU61eJ70NioMw
+
+### 답글 목록
+GET http://localhost:8080/comment/2/replies?page=0&size=6
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMjAxMDcxNSwiZXhwIjoxNzAyMDE0MzE1fQ.kcPnGpTd2sq_VS63QIJEHRzTKpZfbLVDVHhhhLNzwP4DU6GvrbkKtKHM8utDY2rEalY_JbgzrEU61eJ70NioMw
