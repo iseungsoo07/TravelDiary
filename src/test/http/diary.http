@@ -7,8 +7,8 @@ GET http://localhost:8080/user/3/diaries?page=0&size=10&sort=createdAt
 X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTE0ODc1NywiZXhwIjoxNzAxMTUyMzU3fQ.S6y2ore_oENPBP_nlJdTj7h6X6oY0mcGIL9ExJVevwdb2gYQ4kkPcVCsknBr5nGqHctnZ5eMsJsgLwJbWAtb3w
 
 ### 일기 삭제
-DELETE http://localhost:8080/diary/5
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTA2MzQwOCwiZXhwIjoxNzAxMDY3MDA4fQ.AqEaoz1szoCwOc1CmiFidXRi0eD9vWIRsC5dwmNV1_w1wYcsjpfiYSB7qnhLaGITjE3FZ82u9smvoEKrpdP3wg
+DELETE http://localhost:8080/diary/1
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTc1NDE2MSwiZXhwIjoxNzAxNzU3NzYxfQ.wahC6o50nIoS6Af_8FjdWEN5RpCed6FIahieXWO40nQV1ryEvpGEhtyoFrBFJi0OQV4DuXDnCH232rhXpyXRLg
 
 ### 일기 좋아요
 PATCH http://localhost:8080/diary/2/like
@@ -31,3 +31,30 @@ Content-Type: application/json
   "searchType": "HASHTAGS",
   "content": "여행"
 }
+
+### 댓글 달기
+POST http://localhost:8080/diary/1/comment
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTkxMzM2MSwiZXhwIjoxNzAxOTE2OTYxfQ.x86Q0KIofyYhPz2rtlcLwNxaekvXs5zpUjdPDgB0ddwBJ8lQba8twGZRWVsQJoOlXP7t4zStgKwdcfpkyJ910g
+Content-Type: application/json
+
+{
+  "content": "댓글!!"
+}
+
+### 대댓글 달기
+POST http://localhost:8080/diary/1/comment/21/reply
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMTkxMzM2MSwiZXhwIjoxNzAxOTE2OTYxfQ.x86Q0KIofyYhPz2rtlcLwNxaekvXs5zpUjdPDgB0ddwBJ8lQba8twGZRWVsQJoOlXP7t4zStgKwdcfpkyJ910g
+Content-Type: application/json
+
+{
+  "content": "정말 재밌었습니다!"
+}
+
+### 댓글 목록
+GET http://localhost:8080/diary/1/comments?page=0&size=20
+X-AUTH-TOKEN:eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMjA5NzQ4NSwiZXhwIjoxNzAyMTAxMDg1fQ.D1ZLNG4DbBM0AY4ay751JSrgHRmL3MPHi1LRU3mxeTtivNg4HjZT5UQZa-eWDTq0avtUttcVHOjR5lLDooKQig
+
+
+### 답글 목록
+GET http://localhost:8080/comment/2/replies?page=0&size=6
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMjAxMDcxNSwiZXhwIjoxNzAyMDE0MzE1fQ.kcPnGpTd2sq_VS63QIJEHRzTKpZfbLVDVHhhhLNzwP4DU6GvrbkKtKHM8utDY2rEalY_JbgzrEU61eJ70NioMw
