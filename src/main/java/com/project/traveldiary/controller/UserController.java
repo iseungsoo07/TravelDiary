@@ -10,7 +10,6 @@ import com.project.traveldiary.dto.UpdateUserResponse;
 import com.project.traveldiary.security.TokenProvider;
 import com.project.traveldiary.service.UserService;
 import javax.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,13 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/user")
 @Slf4j
-public class UserController {
+public class UserController extends BaseController {
 
     private final UserService userService;
-    private final TokenProvider tokenProvider;
+
+    public UserController(TokenProvider tokenProvider,
+        UserService userService) {
+        super(tokenProvider);
+        this.userService = userService;
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
@@ -41,7 +44,7 @@ public class UserController {
 
     @PostMapping("/signin")
     public ResponseEntity<String> signIn(@RequestBody @Valid SignInRequest signInRequest) {
-        String token = tokenProvider.createToken(userService.login(signInRequest));
+        String token = createToken(userService.login(signInRequest));
 
         return ResponseEntity.ok(token);
     }
@@ -87,8 +90,5 @@ public class UserController {
             .build());
     }
 
-    private String getCurrentUserId(String token) {
-        return tokenProvider.getUsername(token);
-    }
 
 }
