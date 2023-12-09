@@ -39,8 +39,13 @@ public enum ErrorCode {
 
     // Like
     ALREADY_LIKE_DIARY("이미 좋아요한 게시글입니다."),
-    NOT_FOUND_LIKE("좋아요 정보가 없습니다"),
-    ;
+    NOT_FOUND_LIKE("일치하는 좋아요 정보가 없습니다"),
+
+    // Comment
+    NOT_FOUND_COMMENT("일치하는 댓글 정보가 없습니다."),
+    CAN_UPDATE_OWN_COMMENT("본인 댓글만 수정할 수 있습니다."),
+    CAN_DELETE_OWN_COMMENT("본인 댓글만 삭제할 수 있습니다."),
+    CAN_REPLY_ON_COMMENT("댓글에만 답글을 달 수 있습니다.");
 
     private final String message;
 }

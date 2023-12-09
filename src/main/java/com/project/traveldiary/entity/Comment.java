@@ -2,6 +2,7 @@ package com.project.traveldiary.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,12 +15,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
@@ -43,5 +46,9 @@ public class Comment {
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 
 }
