@@ -16,5 +16,5 @@ public class CommentResponse {
     private Long parentCommentId;
     private String writer;
     private String content;
-    private boolean hasReplies;
+    private Long replyCount;
 }

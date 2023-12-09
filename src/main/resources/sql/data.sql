@@ -59,6 +59,3 @@ create table comment
     FOREIGN KEY (diary_id) REFERENCES diary (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
 );
-
-select file_path
-from diary;

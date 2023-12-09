@@ -51,8 +51,9 @@ Content-Type: application/json
 }
 
 ### 댓글 목록
-GET http://localhost:8080/diary/1/comments?page=0&size=6
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMjAxMDcxNSwiZXhwIjoxNzAyMDE0MzE1fQ.kcPnGpTd2sq_VS63QIJEHRzTKpZfbLVDVHhhhLNzwP4DU6GvrbkKtKHM8utDY2rEalY_JbgzrEU61eJ70NioMw
+GET http://localhost:8080/diary/1/comments?page=0&size=20
+X-AUTH-TOKEN:eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMjA5NzQ4NSwiZXhwIjoxNzAyMTAxMDg1fQ.D1ZLNG4DbBM0AY4ay751JSrgHRmL3MPHi1LRU3mxeTtivNg4HjZT5UQZa-eWDTq0avtUttcVHOjR5lLDooKQig
+
 
 ### 답글 목록
 GET http://localhost:8080/comment/2/replies?page=0&size=6

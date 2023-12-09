@@ -344,7 +344,7 @@ public class DiaryServiceImpl implements DiaryService {
             .parentCommentId(comment.getParentCommentId())
             .writer(comment.getUser().getNickname())
             .content(comment.getContent())
-            .hasReplies(commentRepository.existsByParentCommentId(comment.getId()))
+            .replyCount(commentRepository.countByParentCommentId(comment.getId()))
             .build());
     }
 
