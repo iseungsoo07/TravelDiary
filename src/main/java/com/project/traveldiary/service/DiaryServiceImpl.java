@@ -176,7 +176,7 @@ public class DiaryServiceImpl implements DiaryService {
 
         return DiaryUpdateResponse.builder()
             .title(diary.getTitle())
-            .cotent(diary.getContent())
+            .content(diary.getContent())
             .hashtags(diary.getHashtags())
             .filePath(filePaths)
             .build();
