@@ -74,7 +74,7 @@ class DiaryServiceImplTest {
 
     @Mock
     DiarySearchRepository diarySearchRepository;
- 
+
     @Mock
     CommentRepository commentRepository;
 
