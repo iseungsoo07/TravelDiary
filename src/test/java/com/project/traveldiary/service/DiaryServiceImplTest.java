@@ -18,8 +18,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.project.traveldiary.dto.CommentRequest;
 import com.project.traveldiary.dto.CommentResponse;
 import com.project.traveldiary.dto.CreateCommentResponse;
@@ -43,7 +41,6 @@ import com.project.traveldiary.exception.LikeException;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.CommentRepository;
 import com.project.traveldiary.repository.DiaryRepository;
-import com.project.traveldiary.repository.DiarySearchQueryRepository;
 import com.project.traveldiary.repository.DiarySearchRepository;
 import com.project.traveldiary.repository.LikesRepository;
 import com.project.traveldiary.repository.UserRepository;
@@ -78,15 +75,6 @@ class DiaryServiceImplTest {
 
     @Mock
     DiarySearchRepository diarySearchRepository;
-
-    @Mock
-    ObjectMetadata objectMetadata;
-
-    @Mock
-    AmazonS3Client amazonS3;
-
-    @Mock
-    DiarySearchQueryRepository diarySearchQueryRepository;
 
     @Mock
     CommentRepository commentRepository;
