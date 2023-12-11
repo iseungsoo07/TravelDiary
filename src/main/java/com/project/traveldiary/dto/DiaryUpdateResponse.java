@@ -14,7 +14,7 @@ import lombok.Setter;
 @Builder
 public class DiaryUpdateResponse {
     private String title;
-    private String cotent;
+    private String content;
     private List<String> hashtags;
     private List<String> filePath;
 }
