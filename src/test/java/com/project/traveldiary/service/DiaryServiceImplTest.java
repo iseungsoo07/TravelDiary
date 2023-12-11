@@ -17,7 +17,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
 import com.project.traveldiary.dto.CommentRequest;
 import com.project.traveldiary.dto.CommentResponse;
 import com.project.traveldiary.dto.CreateCommentResponse;
@@ -75,7 +74,7 @@ class DiaryServiceImplTest {
 
     @Mock
     DiarySearchRepository diarySearchRepository;
-
+ 
     @Mock
     CommentRepository commentRepository;
 
