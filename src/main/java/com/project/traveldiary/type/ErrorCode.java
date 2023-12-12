@@ -45,7 +45,12 @@ public enum ErrorCode {
     NOT_FOUND_COMMENT("일치하는 댓글 정보가 없습니다."),
     CAN_UPDATE_OWN_COMMENT("본인 댓글만 수정할 수 있습니다."),
     CAN_DELETE_OWN_COMMENT("본인 댓글만 삭제할 수 있습니다."),
-    CAN_REPLY_ON_COMMENT("댓글에만 답글을 달 수 있습니다.");
+    CAN_REPLY_ON_COMMENT("댓글에만 답글을 달 수 있습니다."),
+
+    // chat
+    NOT_FOUND_CHAT("일치하는 채팅 정보가 없습니다."),
+    ALREADY_CHAT_CREATED("이미 채팅방이 만들어져 있습니다."),
+    ;
 
     private final String message;
 }

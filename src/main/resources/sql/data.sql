@@ -59,3 +59,35 @@ create table comment
     FOREIGN KEY (diary_id) REFERENCES diary (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
 );
+
+create table chat
+(
+    id       BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user1_id BIGINT NOT NULL,
+    user2_id BIGINT NOT NULL,
+    FOREIGN KEY (user1_id) REFERENCES user (id) ON DELETE CASCADE,
+    FOREIGN KEY (user2_id) REFERENCES user (id) ON DELETE CASCADE
+);
+
+create table message
+(
+    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    chat_id    BIGINT NOT NULL,
+    sender_id  BIGINT NOT NULL,
+    content    text,
+    created_at DATETIME,
+    FOREIGN KEY (chat_id) REFERENCES chat (id) ON DELETE CASCADE,
+    FOREIGN KEY (sender_id) REFERENCES user (id) ON DELETE CASCADE
+);
+
+create table notification
+(
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    receiver_id BIGINT      NOT NULL,
+    alarm_type  varchar(50) NOT NULL,
+    params      JSON,
+    path        TEXT,
+    created_at  DATETIME,
+    checked_at  DATETIME,
+    FOREIGN KEY (receiver_id) REFERENCES user (id) ON DELETE CASCADE
+);

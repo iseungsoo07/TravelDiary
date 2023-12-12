@@ -1,0 +1,7 @@
+### 채팅방 생성
+POST http://localhost:8080/chat/4
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMjM3MTgwMSwiZXhwIjoxNzAyMzc1NDAxfQ.xx30VyNtaJW-J30X-xFMXlUMAoRaIIVqjLnQEwMLAdWjI6863Yq45FI9-MyAJoBKDPrX3ob_po6FsW5k5hg9LA
+
+### 채팅방 목록
+GET http://localhost:8080/chat/list
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMjM3MTgwMSwiZXhwIjoxNzAyMzc1NDAxfQ.xx30VyNtaJW-J30X-xFMXlUMAoRaIIVqjLnQEwMLAdWjI6863Yq45FI9-MyAJoBKDPrX3ob_po6FsW5k5hg9LA
