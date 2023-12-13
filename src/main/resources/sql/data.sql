@@ -60,7 +60,10 @@ create table comment
     FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
 );
 
-create table chat
+drop table chat_room;
+drop table message;
+
+create table chat_room
 (
     id       BIGINT PRIMARY KEY AUTO_INCREMENT,
     user1_id BIGINT NOT NULL,
@@ -72,11 +75,11 @@ create table chat
 create table message
 (
     id         BIGINT PRIMARY KEY AUTO_INCREMENT,
-    chat_id    BIGINT NOT NULL,
+    chat_room_id    BIGINT NOT NULL,
     sender_id  BIGINT NOT NULL,
     content    text,
     created_at DATETIME,
-    FOREIGN KEY (chat_id) REFERENCES chat (id) ON DELETE CASCADE,
+    FOREIGN KEY (chat_room_id) REFERENCES chat_room (id) ON DELETE CASCADE,
     FOREIGN KEY (sender_id) REFERENCES user (id) ON DELETE CASCADE
 );
 

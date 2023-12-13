@@ -3,7 +3,7 @@ package com.project.traveldiary.controller;
 import com.project.traveldiary.dto.ChatRoomResponse;
 import com.project.traveldiary.dto.CreateChatResponse;
 import com.project.traveldiary.security.TokenProvider;
-import com.project.traveldiary.service.ChatService;
+import com.project.traveldiary.service.ChatRoomService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -15,31 +15,31 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ChatController extends BaseController {
+public class ChatRoomController extends BaseController {
 
-    private final ChatService chatService;
+    private final ChatRoomService chatRoomService;
 
-    public ChatController(TokenProvider tokenProvider, ChatService chatService) {
+    public ChatRoomController(TokenProvider tokenProvider, ChatRoomService chatRoomService) {
         super(tokenProvider);
-        this.chatService = chatService;
+        this.chatRoomService = chatRoomService;
     }
 
-    @PostMapping("/chat/{id}")
+    @PostMapping("/chatroom/{receiverId}")
     public ResponseEntity<CreateChatResponse> createChat(
-        @RequestHeader("X-AUTH-TOKEN") String token, @PathVariable Long id) {
+        @RequestHeader("X-AUTH-TOKEN") String token, @PathVariable Long receiverId) {
 
         String userId = getCurrentUserId(token);
 
-        return ResponseEntity.ok(chatService.createChat(userId, id));
+        return ResponseEntity.ok(chatRoomService.createChat(userId, receiverId));
     }
 
-    @GetMapping("/chat/list")
+    @GetMapping("/chatroom/list")
     public ResponseEntity<Page<ChatRoomResponse>> getChatList(
         @RequestHeader("X-AUTH-TOKEN") String token,
         @PageableDefault Pageable pageable) {
         String userId = getCurrentUserId(token);
 
-        return ResponseEntity.ok(chatService.getChatList(userId, pageable));
+        return ResponseEntity.ok(chatRoomService.getChatList(userId, pageable));
     }
 
 }

@@ -29,8 +29,8 @@ public class Message {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_id")
-    private Chat chat;
+    @JoinColumn(name = "chat_room_id")
+    private ChatRoom chatRoom;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
@@ -40,4 +40,5 @@ public class Message {
 
     @CreatedDate
     private LocalDateTime createdAt;
+
 }

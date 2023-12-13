@@ -48,8 +48,10 @@ public enum ErrorCode {
     CAN_REPLY_ON_COMMENT("댓글에만 답글을 달 수 있습니다."),
 
     // chat
-    NOT_FOUND_CHAT("일치하는 채팅 정보가 없습니다."),
-    ALREADY_CHAT_CREATED("이미 채팅방이 만들어져 있습니다."),
+    NOT_FOUND_CHATROOM("일치하는 채팅방 정보가 없습니다."),
+    ALREADY_CHATROOM_CREATED("이미 채팅방이 만들어져 있습니다."),
+    CAN_PARTICIPATE_OWN_CHATROOM("본인이 참여한 채팅방에만 메시지를 보낼 수 있습니다."),
+    CAN_GET_MESSAGES_OWN_CHATROOM("본인이 참여한 채팅방 메시지만 확인할 수 있습니다."),
     ;
 
     private final String message;

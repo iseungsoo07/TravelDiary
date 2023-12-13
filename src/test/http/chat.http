@@ -1,7 +1,11 @@
 ### 채팅방 생성
-POST http://localhost:8080/chat/4
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMjM3MTgwMSwiZXhwIjoxNzAyMzc1NDAxfQ.xx30VyNtaJW-J30X-xFMXlUMAoRaIIVqjLnQEwMLAdWjI6863Yq45FI9-MyAJoBKDPrX3ob_po6FsW5k5hg9LA
+POST http://localhost:8080/chatroom/8
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMjQ0MDY1MywiZXhwIjoxNzAyNDQ0MjUzfQ.oQLlAxOZk5JUQGZmMEczWoqgMERqD8ImQCeay-XPHz56b1nwAT5rjechhV2IC2qO0VbLz-w_a-yf8l5ecb4hNQ
 
 ### 채팅방 목록
-GET http://localhost:8080/chat/list
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMjM3MTgwMSwiZXhwIjoxNzAyMzc1NDAxfQ.xx30VyNtaJW-J30X-xFMXlUMAoRaIIVqjLnQEwMLAdWjI6863Yq45FI9-MyAJoBKDPrX3ob_po6FsW5k5hg9LA
+GET http://localhost:8080/chatroom/list
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZWZ0IiwiaWF0IjoxNzAyNDQxMTk4LCJleHAiOjE3MDI0NDQ3OTh9.UMsVAdozk6ppn7_qH7zktLgvbzQ1ONCthms7amK3KOUDGyvSe9XbKWbOUjHZ3GmiuC0vM34fYJcYQYtSw29W7A
+
+### 메시지 목록
+GET http://localhost:8080/chatroom/1/messages
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMjQ0NDg3MSwiZXhwIjoxNzAyNDQ4NDcxfQ.vlyRVesDbzxCAPKr5ACTACBgV8pDcagj40_y__RZufS00_yguKyt0SWTehmcziS-jJ6T6U8jtIxaeSVVP36VBA
