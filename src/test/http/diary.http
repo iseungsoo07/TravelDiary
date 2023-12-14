@@ -11,8 +11,8 @@ DELETE http://localhost:8080/diary/1
 X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTc1NDE2MSwiZXhwIjoxNzAxNzU3NzYxfQ.wahC6o50nIoS6Af_8FjdWEN5RpCed6FIahieXWO40nQV1ryEvpGEhtyoFrBFJi0OQV4DuXDnCH232rhXpyXRLg
 
 ### 일기 좋아요
-PATCH http://localhost:8080/diary/2/like
-X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrZXJpYSIsImlhdCI6MTcwMTIzOTA4MCwiZXhwIjoxNzAxMjQyNjgwfQ.pgB7UXHqYv4iIEUe-HK2mQAXFWe3PSyO-aMYW8gihdShj5sS4OVucYd26eSmW7zw9W9Ywu8JWkxU4Hq2TIsc6Q
+PATCH http://localhost:8080/diary/1/like
+X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWtlciIsImlhdCI6MTcwMjI5MzY3NywiZXhwIjoxNzAyMjk3Mjc3fQ.oXFfX7KBZXBgUpn_1yLPi147unT3HGHRPzRL5kKUA-6VIxBEXoTuiewp7ELlrY-Xci7twp51CKEnDGVJ9WiVrg
 
 ### 일기 좋아요 취소
 DELETE http://localhost:8080/diary/2/cancel/like

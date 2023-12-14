@@ -49,6 +49,13 @@ public class GlobalExceptionHandler {
         return new ResponseError(e.getErrorCode(), e.getMessage());
     }
 
+    @ExceptionHandler(ChatException.class)
+    public ResponseError handleChatException(ChatException e) {
+        log.error("{} 예외 발생", e.getErrorCode());
+
+        return new ResponseError(e.getErrorCode(), e.getMessage());
+    }
+
     @ExceptionHandler(LockException.class)
     public ResponseError handleLockException(LockException e) {
         log.error("{} 예외 발생", e.getErrorCode());
