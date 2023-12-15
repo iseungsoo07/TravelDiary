@@ -35,7 +35,7 @@ public class MessageServiceImpl implements MessageService {
     private final SimpMessagingTemplate messagingTemplate;
 
     private final NotificationService notificationService;
-
+  
     @Override
     public MessageResponse sendMessage(Long id, MessageRequest messageRequest, String userId) {
         ChatRoom chatRoom = chatRoomRepository.findById(id)
