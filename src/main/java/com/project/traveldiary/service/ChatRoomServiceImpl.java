@@ -61,7 +61,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         Page<ChatRoom> chatRoomPage = chatRoomRepository.findByUser1OrUser2(user, user, pageable);
 
         return chatRoomPage.map(chatRoom -> ChatRoomResponse.builder()
-            .receiver(chatRoom.getReceiver(user))
+            .receiver(chatRoom.getReceiver(user).getNickname())
             .lastMessage(
                 messageRepository.findTopByChatRoomOrderByCreatedAtDesc(chatRoom).getContent())
             .build());

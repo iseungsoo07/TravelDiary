@@ -24,6 +24,7 @@ import com.project.traveldiary.dto.DiaryUpdateRequest;
 import com.project.traveldiary.dto.DiaryUpdateResponse;
 import com.project.traveldiary.dto.DiaryUploadRequest;
 import com.project.traveldiary.dto.DiaryUploadResponse;
+import com.project.traveldiary.dto.NotificationRequest;
 import com.project.traveldiary.dto.ReplyCommentResponse;
 import com.project.traveldiary.dto.ReplyResponse;
 import com.project.traveldiary.entity.Comment;
@@ -42,11 +43,13 @@ import com.project.traveldiary.repository.DiarySearchQueryRepository;
 import com.project.traveldiary.repository.DiarySearchRepository;
 import com.project.traveldiary.repository.LikesRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.type.AlarmType;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -77,6 +80,8 @@ public class DiaryServiceImpl implements DiaryService {
     private final DiarySearchRepository diarySearchRepository;
     private final DiarySearchQueryRepository diarySearchQueryRepository;
     private final CommentRepository commentRepository;
+
+    private final NotificationService notificationService;
 
     @Override
     @Transactional
@@ -221,6 +226,13 @@ public class DiaryServiceImpl implements DiaryService {
 
         diaryRepository.save(diary);
 
+        notificationService.send(NotificationRequest.builder()
+            .receiver(diary.getUser())
+            .alarmType(AlarmType.DIARY_LIKE)
+            .params(Map.of("sender", user.getUserId()))
+            .path("/diary/" + diary.getId())
+            .build());
+
         String fromUser = savedLike.getUser().getNickname();
         String toUser = savedLike.getDiary().getUser().getNickname();
 
@@ -285,6 +297,13 @@ public class DiaryServiceImpl implements DiaryService {
 
         diary.increaseCommentCount();
         diaryRepository.save(diary);
+
+        notificationService.send(NotificationRequest.builder()
+            .receiver(diary.getUser())
+            .alarmType(AlarmType.DIARY_COMMENT)
+            .params(Map.of("sender", user.getUserId()))
+            .path("/diary/" + diary.getId() + "/comment")
+            .build());
 
         return CreateCommentResponse.builder()
             .parentCommentId(comment.getParentCommentId())
