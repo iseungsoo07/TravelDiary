@@ -73,7 +73,7 @@ public class MessageServiceImpl implements MessageService {
             .params(Map.of("sender", user.getUserId()))
             .path("/chatroom/" + chatRoom.getId() + "/messages")
             .build());
-
+      
         return messageResponse;
     }
 
