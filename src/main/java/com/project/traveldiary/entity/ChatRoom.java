@@ -32,11 +32,11 @@ public class ChatRoom {
     @JoinColumn(name = "user2_id")
     private User user2;
 
-    public String getReceiver(User user) {
+    public User getReceiver(User user) {
         if (Objects.equals(user1.getId(), user.getId())) {
-            return user2.getNickname();
+            return user2;
         } else {
-            return user1.getNickname();
+            return user1;
         }
     }
 

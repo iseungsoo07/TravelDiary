@@ -8,6 +8,7 @@ import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 import com.project.traveldiary.dto.MessageDTO;
 import com.project.traveldiary.dto.MessageRequest;
 import com.project.traveldiary.dto.MessageResponse;
+import com.project.traveldiary.dto.NotificationRequest;
 import com.project.traveldiary.entity.ChatRoom;
 import com.project.traveldiary.entity.Message;
 import com.project.traveldiary.entity.User;
@@ -16,6 +17,8 @@ import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.ChatRoomRepository;
 import com.project.traveldiary.repository.MessageRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.type.AlarmType;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +34,8 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
+    private final NotificationService notificationService;
+  
     @Override
     public MessageResponse sendMessage(Long id, MessageRequest messageRequest, String userId) {
         ChatRoom chatRoom = chatRoomRepository.findById(id)
@@ -52,7 +57,7 @@ public class MessageServiceImpl implements MessageService {
         Message savedMessage = messageRepository.save(message);
 
         String senderNickname = user.getNickname();
-        String receiverNickname = chatRoom.getReceiver(user);
+        String receiverNickname = chatRoom.getReceiver(user).getNickname();
 
         MessageResponse messageResponse = MessageResponse.builder()
             .sender(senderNickname)
@@ -62,6 +67,13 @@ public class MessageServiceImpl implements MessageService {
 
         messagingTemplate.convertAndSend("/sub/chat/" + id, messageResponse);
 
+        notificationService.send(NotificationRequest.builder()
+            .receiver(chatRoom.getReceiver(user))
+            .alarmType(AlarmType.MESSAGE)
+            .params(Map.of("sender", user.getUserId()))
+            .path("/chatroom/" + chatRoom.getId() + "/messages")
+            .build());
+      
         return messageResponse;
     }
 
