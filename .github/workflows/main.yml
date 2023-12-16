@@ -14,12 +14,6 @@ jobs:
     - name: checkout release
       uses: actions/checkout@v3
 
-    - name: Clean temp directory
-      run: |
-        rm -rf temp/*
-        mkdir temp
-        cp -r $GITHUB_WORKSPACE/* temp/
-      
     - name: archive drcloud 
       run: tar cvfz ./drcloud.tar.gz *
        
