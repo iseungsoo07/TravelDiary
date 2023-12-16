@@ -45,6 +45,6 @@ jobs:
     - name: deploy with AWS codeDeploy
       run: aws deploy create-deployment
         --application-name githubaction-test
-        --deployment-config-name CodeDeployDefault.OneAtATime
+        --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name githubaction-test-group
-        --s3-location bucket=github-action-codedeploy-s3,bundleType=tgz,key=archive/drcloud.tar.gz
+        --s3-location bucket=github-action-codedeploy-travel-diary,bundleType=tgz,key=archive/drcloud.tar.gz
