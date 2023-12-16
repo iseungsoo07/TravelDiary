@@ -20,6 +20,7 @@ import com.project.traveldiary.exception.FollowException;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.FollowRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.service.impl.FollowServiceImpl;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package com.project.traveldiary.service;
+package com.project.traveldiary.service.impl;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_FOLLOWED_USER;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_FOLLOW;
@@ -13,6 +13,8 @@ import com.project.traveldiary.exception.FollowException;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.FollowRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.service.FollowService;
+import com.project.traveldiary.service.NotificationService;
 import com.project.traveldiary.type.AlarmType;
 import java.util.List;
 import java.util.Map;

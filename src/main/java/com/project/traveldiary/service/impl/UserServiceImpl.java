@@ -1,4 +1,4 @@
-package com.project.traveldiary.service;
+package com.project.traveldiary.service.impl;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_ID;
 import static com.project.traveldiary.type.ErrorCode.ALREADY_USING_NICKNAME;
@@ -12,6 +12,7 @@ import com.project.traveldiary.dto.UpdatePasswordRequest;
 import com.project.traveldiary.entity.User;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.service.UserService;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

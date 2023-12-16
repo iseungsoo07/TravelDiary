@@ -1,4 +1,4 @@
-package com.project.traveldiary.service;
+package com.project.traveldiary.service.impl;
 
 import static com.project.traveldiary.type.ErrorCode.CAN_DELETE_OWN_COMMENT;
 import static com.project.traveldiary.type.ErrorCode.CAN_UPDATE_OWN_COMMENT;
@@ -14,6 +14,7 @@ import com.project.traveldiary.exception.CommentException;
 import com.project.traveldiary.exception.DiaryException;
 import com.project.traveldiary.repository.CommentRepository;
 import com.project.traveldiary.repository.DiaryRepository;
+import com.project.traveldiary.service.CommentService;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

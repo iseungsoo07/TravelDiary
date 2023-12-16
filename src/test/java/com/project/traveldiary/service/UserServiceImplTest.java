@@ -19,6 +19,7 @@ import com.project.traveldiary.dto.UpdatePasswordRequest;
 import com.project.traveldiary.entity.User;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.service.impl.UserServiceImpl;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

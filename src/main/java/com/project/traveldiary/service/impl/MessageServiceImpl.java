@@ -1,4 +1,4 @@
-package com.project.traveldiary.service;
+package com.project.traveldiary.service.impl;
 
 import static com.project.traveldiary.type.ErrorCode.CAN_GET_MESSAGES_OWN_CHATROOM;
 import static com.project.traveldiary.type.ErrorCode.CAN_PARTICIPATE_OWN_CHATROOM;
@@ -17,6 +17,8 @@ import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.ChatRoomRepository;
 import com.project.traveldiary.repository.MessageRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.service.MessageService;
+import com.project.traveldiary.service.NotificationService;
 import com.project.traveldiary.type.AlarmType;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

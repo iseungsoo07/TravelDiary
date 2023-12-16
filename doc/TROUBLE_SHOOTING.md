@@ -173,3 +173,13 @@ public class LockAopAspect {
 }
 ```
 위 처럼 수정하니 정상 동작하는 것을 확인할 수 있었다.
+
+### Elasticsearch
+elasticsearch 사용 과정에서 사용자에게 받은 입력값에 공백이 있는 경우 아래와 같은 에러가 발생하는 상황을 마주했다.
+![img.png](img.png)
+elasticsearch에 대한 충분한 공부가 이루어지지 않은 상황에서 각 필드의 설정을 잘못해서 발생한 상황이었다.
+title을 text 타입으로 지정했었는데, keyword로 지정해주었고, native query를 작성할 때 `matchPhrase()` 메소드를 사용해 띄어쓰기도 포함하도록 설정해주었다.
+ElasticSearch를 사용하기 위해서는 RDB에서 table의 row로 여겨지는 Document라는 구조를 만들어줘야 하는데
+이를 매번 일기의 생성, 수정, 삭제 시 마다 document를 저장하는 메소드를 호출하게 되면 성능적인 저하가 있을거라고 예상했다.
+이를 해결하기 위한 별도의 방안이 있을거라고 생각했는데 멘토님께서 꼭 필요한 연산의 경우는 어쩔 수 없다고 하셨다.
+

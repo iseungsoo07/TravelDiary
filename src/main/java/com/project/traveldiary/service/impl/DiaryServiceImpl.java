@@ -1,4 +1,4 @@
-package com.project.traveldiary.service;
+package com.project.traveldiary.service.impl;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_LIKE_DIARY;
 import static com.project.traveldiary.type.ErrorCode.CAN_DELETE_OWN_DIARY;
@@ -43,6 +43,8 @@ import com.project.traveldiary.repository.DiarySearchQueryRepository;
 import com.project.traveldiary.repository.DiarySearchRepository;
 import com.project.traveldiary.repository.LikesRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.service.DiaryService;
+import com.project.traveldiary.service.NotificationService;
 import com.project.traveldiary.type.AlarmType;
 import java.io.IOException;
 import java.net.URLDecoder;

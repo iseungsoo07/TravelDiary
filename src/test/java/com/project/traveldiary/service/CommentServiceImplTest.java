@@ -21,6 +21,7 @@ import com.project.traveldiary.exception.CommentException;
 import com.project.traveldiary.exception.DiaryException;
 import com.project.traveldiary.repository.CommentRepository;
 import com.project.traveldiary.repository.DiaryRepository;
+import com.project.traveldiary.service.impl.CommentServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -43,6 +43,7 @@ import com.project.traveldiary.repository.DiaryRepository;
 import com.project.traveldiary.repository.DiarySearchRepository;
 import com.project.traveldiary.repository.LikesRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.service.impl.DiaryServiceImpl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

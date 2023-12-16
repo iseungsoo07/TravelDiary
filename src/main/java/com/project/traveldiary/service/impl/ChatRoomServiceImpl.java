@@ -1,4 +1,4 @@
-package com.project.traveldiary.service;
+package com.project.traveldiary.service.impl;
 
 import static com.project.traveldiary.type.ErrorCode.ALREADY_CHATROOM_CREATED;
 import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
@@ -12,6 +12,7 @@ import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.ChatRoomRepository;
 import com.project.traveldiary.repository.MessageRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

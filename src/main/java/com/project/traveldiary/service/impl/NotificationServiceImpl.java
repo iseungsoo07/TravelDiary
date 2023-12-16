@@ -1,4 +1,4 @@
-package com.project.traveldiary.service;
+package com.project.traveldiary.service.impl;
 
 import static com.project.traveldiary.type.AlarmType.DIARY_COMMENT;
 import static com.project.traveldiary.type.AlarmType.DIARY_LIKE;
@@ -14,6 +14,7 @@ import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.EmitterRepository;
 import com.project.traveldiary.repository.NotificationRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.service.NotificationService;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Map;
