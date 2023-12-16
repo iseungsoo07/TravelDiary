@@ -6,13 +6,16 @@ import static com.project.traveldiary.type.ErrorCode.NOT_FOUND_USER;
 
 import com.project.traveldiary.dto.FollowListResponse;
 import com.project.traveldiary.dto.FollowResponse;
+import com.project.traveldiary.dto.NotificationRequest;
 import com.project.traveldiary.entity.Follow;
 import com.project.traveldiary.entity.User;
 import com.project.traveldiary.exception.FollowException;
 import com.project.traveldiary.exception.UserException;
 import com.project.traveldiary.repository.FollowRepository;
 import com.project.traveldiary.repository.UserRepository;
+import com.project.traveldiary.type.AlarmType;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +28,8 @@ public class FollowServiceImpl implements FollowService {
 
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
+
+    private final NotificationService notificationService;
 
     @Override
     public FollowResponse follow(String followerId, Long followingId) {
@@ -44,6 +49,13 @@ public class FollowServiceImpl implements FollowService {
             .build();
 
         followRepository.save(follow);
+
+        notificationService.send(NotificationRequest.builder()
+            .receiver(following)
+            .alarmType(AlarmType.FOLLOW)
+            .params(Map.of("sender", follower.getUserId()))
+            .path(null)
+            .build());
 
         return FollowResponse.builder()
             .follower(follower.getNickname())
