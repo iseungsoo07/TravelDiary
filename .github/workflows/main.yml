@@ -16,8 +16,9 @@ jobs:
 
     - name: Clean temp directory
       run: |
-        rm -rf *
-        cp -r $GITHUB_WORKSPACE . 
+        rm -rf temp/*
+        mkdir temp
+        cp -r $GITHUB_WORKSPACE/* temp/
       
     - name: archive drcloud 
       run: tar cvfz ./drcloud.tar.gz *
