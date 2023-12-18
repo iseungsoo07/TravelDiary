@@ -15,7 +15,7 @@ spring:
   jwt:
     secret: bXkgcGVyc29uYWwgcHJvamVjdCBuYW1lZCB0cmF2ZWxfZGlhcnkgaW4gemVyb2Jhc2Ugc2VjcmV0IGtleQo=
   redis:
-    host: localhost
+    host: 13.125.249.173
     port: 6379
   elasticsearch:
     cluster-names: travelDiary
