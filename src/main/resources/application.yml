@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/travel_diary
+    url: jdbc:mysql://13.125.249.173:3306/travel_diary
     username: root
     password: choco025874
   jpa:
@@ -19,7 +19,7 @@ spring:
     port: 6379
   elasticsearch:
     cluster-names: travelDiary
-    cluster-node: localhost:9200
+    cluster-node: 13.125.249.173:9200
 
 cloud:
   aws:
