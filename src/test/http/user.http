@@ -3,9 +3,9 @@ POST http://localhost:8080/user/signup
 Content-Type: application/json
 
 {
-  "userId": "kiin",
-  "password": "5555",
-  "nickname": "kimkin"
+  "userId": "apple",
+  "password": "12345",
+  "nickname": "김애쁠"
 }
 
 ### 로그인

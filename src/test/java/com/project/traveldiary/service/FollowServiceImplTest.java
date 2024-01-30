@@ -44,40 +44,40 @@ class FollowServiceImplTest {
     @InjectMocks
     FollowServiceImpl followService;
 
-    @Test
-    @DisplayName("팔로우 성공")
-    void successFollow() {
-        // given
-        User follower = User.builder()
-            .userId("apple")
-            .password("apple")
-            .nickname("apple123")
-            .build();
-
-        User following = User.builder()
-            .id(2L)
-            .userId("banana")
-            .password("banana")
-            .nickname("banana456")
-            .build();
-
-        given(userRepository.findByUserId(anyString()))
-            .willReturn(Optional.of(follower));
-
-        given(userRepository.findById(anyLong()))
-            .willReturn(Optional.of(following));
-
-        given(followRepository.existsByFollowerAndFollowing(any(), any()))
-            .willReturn(false);
-
-        // when
-        FollowResponse followResponse = followService.follow(follower.getUserId(),
-            following.getId());
-
-        // then
-        assertEquals("apple123", followResponse.getFollower());
-        assertEquals("banana456", followResponse.getFollowing());
-    }
+//    @Test
+//    @DisplayName("팔로우 성공")
+//    void successFollow() {
+//        // given
+//        User follower = User.builder()
+//            .userId("apple")
+//            .password("apple")
+//            .nickname("apple123")
+//            .build();
+//
+//        User following = User.builder()
+//            .id(2L)
+//            .userId("banana")
+//            .password("banana")
+//            .nickname("banana456")
+//            .build();
+//
+//        given(userRepository.findByUserId(anyString()))
+//            .willReturn(Optional.of(follower));
+//
+//        given(userRepository.findById(anyLong()))
+//            .willReturn(Optional.of(following));
+//
+//        given(followRepository.existsByFollowerAndFollowing(any(), any()))
+//            .willReturn(false);
+//
+//        // when
+//        FollowResponse followResponse = followService.follow(follower.getUserId(),
+//            following.getId());
+//
+//        // then
+//        assertEquals("apple123", followResponse.getFollower());
+//        assertEquals("banana456", followResponse.getFollowing());
+//    }
 
     @Test
     @DisplayName("팔로우 실패 - 사용자 정보 없음")

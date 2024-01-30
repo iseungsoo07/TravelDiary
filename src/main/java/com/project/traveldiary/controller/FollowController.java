@@ -41,7 +41,7 @@ public class FollowController extends BaseController {
 
     }
 
-    @DeleteMapping("/cancel/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<FollowResponse> cancelFollow(@PathVariable Long id,
         @RequestHeader("X-AUTH-TOKEN") String token) {
 

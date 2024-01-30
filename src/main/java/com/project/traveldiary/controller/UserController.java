@@ -49,7 +49,7 @@ public class UserController extends BaseController {
         return ResponseEntity.ok(token);
     }
 
-    @PatchMapping("/update/nickname")
+    @PatchMapping("/nickname")
     public ResponseEntity<UpdateUserResponse> updateNickname(
         @RequestBody @Valid UpdateNicknameRequest updateUserRequest,
         @RequestHeader("X-AUTH-TOKEN") String token) {
@@ -63,7 +63,7 @@ public class UserController extends BaseController {
             .build());
     }
 
-    @PatchMapping("/update/password")
+    @PatchMapping("/password")
     public ResponseEntity<UpdateUserResponse> updatePassword(
         @RequestBody @Valid UpdatePasswordRequest updatePasswordRequest,
         @RequestHeader("X-AUTH-TOKEN") String token) {
@@ -77,7 +77,7 @@ public class UserController extends BaseController {
             .build());
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<DeleteUserResponse> deleteUser(
         @RequestHeader("X-AUTH-TOKEN") String token) {
 
